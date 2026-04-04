@@ -1,144 +1,109 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-// OpenZeppelin
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
-import "@openzeppelin/contracts/security/Pausable.sol";
-import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
-interface IDEXRouter {
-    function swapExactTokensForTokens(
-        uint amountIn,
-        uint amountOutMin,
-        address[] calldata path,
-        address to,
-        uint deadline
-    ) external returns (uint[] memory amounts);
-}
+contract DailyRemitCoin is ERC20, Ownable {
 
-contract DailyRemitToken is ERC20, Ownable, ReentrancyGuard, Pausable {
-    using SafeERC20 for IERC20;
+    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 1e9;
 
-    // ------------------ WALLET ADDRESSES ------------------
-    address public devWallet = 0xAE1e1c414D88F5dF9dF3f75DE05924EBFFbDaA84;
     address public marketingWallet = 0xD346F0787e0FB3d21D7370E6708C55107BB0E150;
+    address public devWallet = 0xAE1e1c414D88F5dF9dF3f75DE05924EBFFbDaA84;
 
-    // ------------------ SUPPLY ------------------
-    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10**18;
-    uint256 public constant MIN_SUPPLY = 100_000_000 * 10**18;
+    address public constant DEAD = 0x000000000000000000000000000000000000dEaD;
 
-    // ------------------ FEES ------------------
-    uint256 public burnFee = 100;       // 1%
-    uint256 public devFee = 100;        // 1%
-    uint256 public marketingFee = 100;  // 1%
-    uint256 public constant MAX_FEE = 10000;
+    uint256 public marketingFee = 2;
+    uint256 public devFee = 1;
+    uint256 public burnFee = 1;
 
-    // ------------------ SECURITY ------------------
-    mapping(address => bool) public approvedRouters;
+    uint256 public constant MAX_TOTAL_FEE = 10;
 
-    // ------------------ EVENTS ------------------
-    event SwapAndSendExecuted(address router, uint256 amountIn, address to);
+    bool public tradingOpen = false;
+    bool public locked = false;
 
-    constructor() ERC20("DailyRemitToken", "DRT") Ownable(msg.sender) {
-        _mint(msg.sender, MAX_SUPPLY);
+    mapping(address => bool) public isExcludedFromFees;
+
+    modifier notLocked() {
+        require(!locked, "Settings locked");
+        _;
     }
 
-    // ------------------ ROUTER MANAGEMENT ------------------
-    function setRouter(address router, bool status) external onlyOwner {
-        approvedRouters[router] = status;
+    constructor() ERC20("Daily Remit Coin", "DRC") Ownable(msg.sender) {
+        _mint(0x914138FF3011dEC94FaCd2C76792cECc820D4D33, MAX_SUPPLY);
+
+        isExcludedFromFees[msg.sender] = true;
+        isExcludedFromFees[address(this)] = true;
     }
 
-    // ------------------ FEE MANAGEMENT ------------------
-    function setFees(
-        uint256 _burnFee,
-        uint256 _devFee,
-        uint256 _marketingFee
-    ) external onlyOwner {
-        require(_burnFee + _devFee + _marketingFee <= 1000, "Max 10%");
-        burnFee = _burnFee;
-        devFee = _devFee;
-        marketingFee = _marketingFee;
-    }
+    // ✅ NEW CORRECT FUNCTION (OZ v5+)
+    function _update(address from, address to, uint256 amount) internal override {
 
-    // ------------------ BURN ------------------
-    function burn(uint256 amount) external {
-        require(totalSupply() - amount >= MIN_SUPPLY, "Below min supply");
-        _burn(msg.sender, amount);
-    }
+        if (from != address(0) && to != address(0)) {
+            require(tradingOpen || from == owner(), "Trading not open");
 
-    // ------------------ SWAP AND SEND (FIXED) ------------------
-    // ------------------ SWAP AND SEND ------------------
-function swapAndSend(
-    address router,
-    address to,
-    uint256 amountIn,
-    uint256 amountOutMin,
-    address wrappedToken
-) external onlyOwner nonReentrant whenNotPaused {
+            uint256 feeTotal = marketingFee + devFee + burnFee;
+            uint256 feeAmount = 0;
 
-    require(amountIn > 0, "Invalid amount");
-    require(router != address(0), "Invalid router");
-    require(to != address(0), "Invalid recipient");
-    require(wrappedToken != address(0), "Invalid wrapped token");
-    require(amountOutMin > 0, "amountOutMin must be > 0");
-    require(balanceOf(address(this)) >= amountIn, "Insufficient balance");
-    require(approvedRouters[router], "Router not approved");
+            if (!isExcludedFromFees[from] && !isExcludedFromFees[to]) {
+                feeAmount = (amount * feeTotal) / 100;
+            }
 
-    // Approve tokens
-    IERC20(address(this)).safeApprove(router, 0);
-    IERC20(address(this)).safeApprove(router, amountIn);
+            uint256 sendAmount = amount - feeAmount;
 
-    // ✅ FIXED: Declare swapPath properly in memory
-    swapPath[0] = address(this);   // your token
-    swapPath[1] = wrappedToken;    // wrapped token (WBNB, WETH, etc.)
+            // Transfer main amount
+            super._update(from, to, sendAmount);
 
-    // Execute swap
-    IDEXRouter(router).swapExactTokensForTokens(
-        amountIn,
-        amountOutMin,
-        swapPath,
-        to,
-        block.timestamp
-    );
+            if (feeAmount > 0) {
+                uint256 marketingPart = (feeAmount * marketingFee) / feeTotal;
+                uint256 devPart = (feeAmount * devFee) / feeTotal;
+                uint256 burnPart = feeAmount - marketingPart - devPart;
 
-    emit SwapAndSendExecuted(router, amountIn, to);
-}
-    // ------------------ PAUSE CONTROL ------------------
-    function pause() external onlyOwner {
-        _pause();
-    }
+                if (marketingPart > 0)
+                    super._update(from, marketingWallet, marketingPart);
 
-    function unpause() external onlyOwner {
-        _unpause();
-    }
+                if (devPart > 0)
+                    super._update(from, devWallet, devPart);
 
-    // ------------------ INTERNAL FEE LOGIC (OPTIONAL USE) ------------------
-    function _transfer(address from, address to, uint256 amount) internal override {
-        if (from == owner() || to == owner()) {
-            super._transfer(from, to, amount);
-            return;
+                if (burnPart > 0)
+                    super._update(from, DEAD, burnPart);
+            }
+
+        } else {
+            // Mint or burn (no fee)
+            super._update(from, to, amount);
         }
+    }
 
-        uint256 burnAmount = (amount * burnFee) / MAX_FEE;
-        uint256 devAmount = (amount * devFee) / MAX_FEE;
-        uint256 marketingAmount = (amount * marketingFee) / MAX_FEE;
+    // ================= ADMIN =================
 
-        uint256 sendAmount = amount - burnAmount - devAmount - marketingAmount;
+    function openTrading() external onlyOwner {
+        tradingOpen = true;
+    }
 
-        if (burnAmount > 0 && totalSupply() > MIN_SUPPLY) {
-            _burn(from, burnAmount);
-        }
+    function setWallets(address _marketing, address _dev) external onlyOwner notLocked {
+        marketingWallet = _marketing;
+        devWallet = _dev;
+    }
 
-        if (devAmount > 0) {
-            super._transfer(from, devWallet, devAmount);
-        }
+    function setFees(uint256 _marketing, uint256 _dev, uint256 _burn)
+        external
+        onlyOwner
+        notLocked
+    {
+        uint256 total = _marketing + _dev + _burn;
+        require(total <= MAX_TOTAL_FEE, "Too high");
 
-        if (marketingAmount > 0) {
-            super._transfer(from, marketingWallet, marketingAmount);
-        }
+        marketingFee = _marketing;
+        devFee = _dev;
+        burnFee = _burn;
+    }
 
-        super._transfer(from, to, sendAmount);
+    function excludeFromFees(address user, bool state) external onlyOwner {
+        isExcludedFromFees[user] = state;
+    }
+
+    function lockSettings() external onlyOwner {
+        locked = true;
     }
 }
