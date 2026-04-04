@@ -7,7 +7,7 @@ let userAddress;
 let drcContract;
 
 // Your DRC contract info
-const contractAddress = "YOUR_DRC_CONTRACT_ADDRESS";
+const contractAddress = "0x6eBbc9CDBb7b3fc16e117f121eC55a16f5B645fF";
 const contractABI = [
     "function buy() public payable",
     "function balanceOf(address account) external view returns (uint256)"
