@@ -4,61 +4,50 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Remit Coin (DRC)</title>
-    <link rel="icon" href="images/logo/drc_icon_128.png">
     <link rel="stylesheet" href="styles.css">
-
-    <!-- Ethers.js CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-
-    <!-- WalletConnect CDN -->
-    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider/dist/umd/index.min.js"></script>
+    <link rel="icon" href="assets/logo/drc_icon_128.png">
+    <!-- WalletConnect & Coinbase Wallet -->
+    <script src="https://cdn.jsdelivr.net/npm/@web3modal/standalone@2.8.3/dist/index.min.js"></script>
 </head>
 <body>
-
     <!-- Header / Navbar -->
     <header>
         <nav>
-            <img src="images/logo/drc_icon_128.png" alt="DRC Logo" class="logo">
+            <div class="logo">
+                <img src="assets/logo/drc_icon_64.png" alt="DRC Logo">
+                <h1>DRC</h1>
+            </div>
             <ul>
                 <li><a href="#about">About</a></li>
-                <li><a href="#buy">Buy DRC</a></li>
+                <li><a href="#features">Features</a></li>
                 <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#tokenomics">Tokenomics</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
+            <button id="connectWalletBtn">Connect Wallet</button>
         </nav>
     </header>
 
     <!-- Hero Section -->
-    <section class="hero">
-        <h1>Daily Remit Coin (DRC)</h1>
-        <p>Fast, Secure & Low-Cost Cross-Border Payments with Blockchain</p>
-
-        <div class="wallet-buttons">
-            <button onclick="connectMetaMask()">Connect MetaMask</button>
-            <button onclick="connectWalletConnect()">Connect WalletConnect</button>
+    <section id="hero">
+        <div class="hero-text">
+            <h2>Daily Remit Coin (DRC)</h2>
+            <p>Fast, Secure & Low-Cost Cross-Border Payments with Blockchain</p>
+            <div class="buy-drc">
+                <input type="number" id="buyAmount" placeholder="Amount to Buy (BNB)">
+                <button id="buyBtn">Buy DRC</button>
+            </div>
         </div>
-
-        <div class="buy-drc" id="buy">
-            <input type="text" id="amount" placeholder="Amount in BNB/ETH">
-            <button onclick="buyDRC(document.getElementById('amount').value)">Buy DRC</button>
+        <div class="hero-image">
+            <img src="assets/logo/drc_icon_512.png" alt="DRC">
         </div>
     </section>
 
     <!-- About Section -->
     <section id="about">
         <h2>About DRC</h2>
-        <p>Daily Remit Coin is a future-proof cryptocurrency designed for global remittances and decentralized finance. It offers staking rewards, NFT integration, DAO governance, and cross-chain compatibility.</p>
-    </section>
-
-    <!-- Roadmap Section -->
-    <section id="roadmap">
-        <h2>Roadmap (2026–2035)</h2>
-        <ul>
-            <li><strong>2026:</strong> Launch</li>
-            <li><strong>2027:</strong> Staking & NFT Integration</li>
-            <li><strong>2028–2029:</strong> Ecosystem Expansion</li>
-            <li><strong>2030+:</strong> DAO Governance & Mobile Apps</li>
-        </ul>
+        <p>Daily Remit Coin (DRC) is a next-generation digital asset built to power fast, low-cost, and secure global transactions. By leveraging blockchain technology, DRC eliminates the inefficiencies of traditional remittance systems while expanding into a scalable ecosystem of DeFi, NFTs, staking, and decentralized governance.</p>
+        <p>DRC is designed for real-world utility and long-term growth, aiming to become a cornerstone of borderless finance.</p>
     </section>
 
     <!-- Features Section -->
@@ -67,28 +56,58 @@
         <ul>
             <li>🔥 Deflationary Burn Mechanism</li>
             <li>💰 Staking Rewards</li>
-            <li>📈 Long-term Supply Reduction</li>
+            <li>📉 Supply Reduction Model</li>
             <li>⚖️ Balanced Ecosystem Growth</li>
-            <li>🌐 Multi-Chain & Cross-Chain Compatible</li>
-            <li>🛡️ Secure Smart Contract</li>
-            <li>🎨 NFT & DeFi Ready</li>
+            <li>🖼️ NFT Marketplace</li>
+            <li>📊 DeFi Integrations</li>
+            <li>🏛️ DAO Governance</li>
+            <li>📱 Mobile App Ecosystem</li>
+            <li>💳 Merchant Payments & E-Commerce</li>
+            <li>🌍 Financial Inclusion</li>
         </ul>
     </section>
 
-    <!-- Contact Section -->
-    <section id="contact">
-        <h2>Contact</h2>
-        <p>Reach out to us via <a href="mailto:info@dailyremitcoin.com">info@dailyremitcoin.com</a> or join our community channels.</p>
+    <!-- Roadmap Section -->
+    <section id="roadmap">
+        <h2>Roadmap (2026–2035)</h2>
+        <ul>
+            <li><strong>2026:</strong> Launch on BNB Smart Chain, official website, initial liquidity, community building, DEX listing.</li>
+            <li><strong>2027:</strong> Staking platform, NFT ecosystem, marketing campaigns, CEX listing efforts.</li>
+            <li><strong>2028–2029:</strong> Native wallet, DeFi integrations, cross-chain support, P2E gaming.</li>
+            <li><strong>2030–2032:</strong> DAO governance, mobile apps, enterprise solutions, advanced DeFi tools.</li>
+            <li><strong>2033–2035:</strong> Proprietary DRC blockchain, global adoption, institutional partnerships.</li>
+        </ul>
     </section>
 
-    <!-- Footer -->
+    <!-- Tokenomics Section -->
+    <section id="tokenomics">
+        <h2>Tokenomics</h2>
+        <ul>
+            <li>Total Supply: 1,000,000,000 DRC</li>
+            <li>Decimals: 18</li>
+            <li>Network: BNB Smart Chain</li>
+            <li>Transaction Fees:</li>
+            <ul>
+                <li>1% Marketing</li>
+                <li>1% Development</li>
+                <li>1% Liquidity</li>
+                <li>1% Burn</li>
+            </ul>
+        </ul>
+    </section>
+
+    <!-- Contact / Footer -->
+    <section id="contact">
+        <h2>Contact & Socials</h2>
+        <p>Email: contact@dailyremitcoin.io</p>
+        <p>Telegram | Discord | X (Twitter) | Medium</p>
+    </section>
+
     <footer>
-        <p>&copy; 2026 Daily Remit Coin. All Rights Reserved.</p>
-        <p>Follow us on social media: <a href="#">Twitter</a> | <a href="#">Telegram</a> | <a href="#">Discord</a></p>
+        <p>© 2026 Daily Remit Coin. All rights reserved.</p>
     </footer>
 
-    <!-- Custom JS -->
+    <!-- Script -->
     <script src="script.js"></script>
-
 </body>
 </html>
