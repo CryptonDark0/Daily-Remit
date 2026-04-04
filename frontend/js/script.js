@@ -1,60 +1,50 @@
-// Include ethers.js in your HTML <head> if not using npm
-// <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-// <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider/dist/umd/index.min.js"></script>
+// Ethereum & BSC wallets using Ethers.js
+const connectWalletBtn = document.getElementById("connectWalletBtn");
+const buyBtn = document.getElementById("buyBtn");
+const buyAmountInput = document.getElementById("buyAmount");
 
 let provider;
 let signer;
 let userAddress;
 
-// Connect MetaMask
-async function connectMetaMask() {
+async function connectWallet() {
     if (window.ethereum) {
         try {
-            await window.ethereum.request({ method: 'eth_requestAccounts' });
+            await window.ethereum.request({ method: "eth_requestAccounts" });
             provider = new ethers.providers.Web3Provider(window.ethereum);
             signer = provider.getSigner();
             userAddress = await signer.getAddress();
-            alert("Connected MetaMask: " + userAddress);
-        } catch (err) {
-            console.error(err);
-            alert("MetaMask connection failed!");
+            connectWalletBtn.innerText = `Connected: ${userAddress.slice(0,6)}...${userAddress.slice(-4)}`;
+        } catch (error) {
+            console.error(error);
         }
     } else {
-        alert("Install MetaMask!");
+        alert("Please install MetaMask or a compatible wallet!");
     }
 }
 
-// Connect WalletConnect
-async function connectWalletConnect() {
-    const WalletConnectProvider = window.WalletConnectProvider.default;
-    const walletConnectProvider = new WalletConnectProvider({
-        rpc: {
-            56: "https://bsc-dataseed.binance.org/", // BSC Mainnet
-            1: "https://mainnet.infura.io/v3/YOUR_INFURA_PROJECT_ID" // Ethereum
-        }
-    });
+async function buyDRC() {
+    const amount = buyAmountInput.value;
+    if (!amount || amount <= 0) {
+        alert("Enter a valid amount!");
+        return;
+    }
 
-    await walletConnectProvider.enable();
-    provider = new ethers.providers.Web3Provider(walletConnectProvider);
-    signer = provider.getSigner();
-    userAddress = await signer.getAddress();
-    alert("Connected WalletConnect: " + userAddress);
-}
-
-// Buy DRC Example (call your contract)
-async function buyDRC(amount) {
-    const contractAddress = "YOUR_CONTRACT_ADDRESS";
-    const abi = [
-        "function buyTokens() payable" // Example function
+    const contractAddress = "YOUR_DRC_CONTRACT_ADDRESS";
+    const abi = [ 
+        "function buy() public payable"
     ];
     const contract = new ethers.Contract(contractAddress, abi, signer);
 
     try {
-        const tx = await contract.buyTokens({ value: ethers.utils.parseEther(amount) });
+        const tx = await contract.buy({ value: ethers.utils.parseEther(amount) });
         await tx.wait();
-        alert("Purchase Successful!");
+        alert("DRC purchased successfully!");
     } catch (err) {
         console.error(err);
-        alert("Purchase Failed!");
+        alert("Transaction failed!");
     }
 }
+
+connectWalletBtn.addEventListener("click", connectWallet);
+buyBtn.addEventListener("click", buyDRC);
