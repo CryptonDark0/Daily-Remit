@@ -4,100 +4,91 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Daily Remit Coin (DRC)</title>
-    
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/png" sizes="32x32" href="images/logo/drc_icon_32.svg">
-    <link rel="apple-touch-icon" sizes="180x180" href="images/logo/drc_icon_512.png">
-
-    <!-- CSS -->
+    <link rel="icon" href="images/logo/drc_icon_128.png">
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Ethers.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+
+    <!-- WalletConnect CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider/dist/umd/index.min.js"></script>
 </head>
 <body>
+
     <!-- Header / Navbar -->
     <header>
-        <div class="container">
+        <nav>
             <img src="images/logo/drc_icon_128.png" alt="DRC Logo" class="logo">
-            <nav>
-                <ul>
-                    <li><a href="index.html">Home</a></li>
-                    <li><a href="about.html">About</a></li>
-                    <li><a href="#roadmap">Roadmap</a></li>
-                    <li><a href="#tokenomics">Tokenomics</a></li>
-                    <li><a href="contact.html">Contact</a></li>
-                </ul>
-            </nav>
-        </div>
+            <ul>
+                <li><a href="#about">About</a></li>
+                <li><a href="#buy">Buy DRC</a></li>
+                <li><a href="#roadmap">Roadmap</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
     </header>
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="container">
-            <h1>Daily Remit Coin (DRC)</h1>
-            <p>Future-Proof, Multi-Use Cryptocurrency for Global Remittances</p>
-            <a href="#tokenomics" class="btn">Explore Tokenomics</a>
+        <h1>Daily Remit Coin (DRC)</h1>
+        <p>Fast, Secure & Low-Cost Cross-Border Payments with Blockchain</p>
+
+        <div class="wallet-buttons">
+            <button onclick="connectMetaMask()">Connect MetaMask</button>
+            <button onclick="connectWalletConnect()">Connect WalletConnect</button>
+        </div>
+
+        <div class="buy-drc" id="buy">
+            <input type="text" id="amount" placeholder="Amount in BNB/ETH">
+            <button onclick="buyDRC(document.getElementById('amount').value)">Buy DRC</button>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features">
-        <div class="container">
-            <h2>Key Features</h2>
-            <div class="features-grid">
-                <div class="feature-card">
-                    <h3>🔥 Deflationary Burn</h3>
-                    <p>Long-term supply reduction ensures value stability.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>💰 Staking Rewards</h3>
-                    <p>Earn rewards by staking DRC and supporting the network.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>⚖️ Balanced Growth</h3>
-                    <p>Strategic tokenomics for sustainable ecosystem expansion.</p>
-                </div>
-                <div class="feature-card">
-                    <h3>🌐 Cross-Chain Ready</h3>
-                    <p>DRC will be compatible with BSC, Ethereum, Polygon, and more.</p>
-                </div>
-            </div>
-        </div>
+    <!-- About Section -->
+    <section id="about">
+        <h2>About DRC</h2>
+        <p>Daily Remit Coin is a future-proof cryptocurrency designed for global remittances and decentralized finance. It offers staking rewards, NFT integration, DAO governance, and cross-chain compatibility.</p>
     </section>
 
     <!-- Roadmap Section -->
     <section id="roadmap">
-        <div class="container">
-            <h2>Roadmap (2026–2035)</h2>
-            <ul class="roadmap-list">
-                <li><strong>2026:</strong> Launch DRC on BSC & ETH</li>
-                <li><strong>2027:</strong> Staking & NFT ecosystem</li>
-                <li><strong>2028–2029:</strong> Global expansion & DeFi integration</li>
-                <li><strong>2030+:</strong> DAO governance & Mobile apps</li>
-            </ul>
-        </div>
+        <h2>Roadmap (2026–2035)</h2>
+        <ul>
+            <li><strong>2026:</strong> Launch</li>
+            <li><strong>2027:</strong> Staking & NFT Integration</li>
+            <li><strong>2028–2029:</strong> Ecosystem Expansion</li>
+            <li><strong>2030+:</strong> DAO Governance & Mobile Apps</li>
+        </ul>
     </section>
 
-    <!-- Tokenomics Section -->
-    <section id="tokenomics">
-        <div class="container">
-            <h2>Tokenomics</h2>
-            <p>Total Supply: 1,000,000,000 DRC</p>
-            <ul>
-                <li>1% Marketing</li>
-                <li>1% Development</li>
-                <li>1% Liquidity</li>
-                <li>1% Burn</li>
-            </ul>
-        </div>
+    <!-- Features Section -->
+    <section id="features">
+        <h2>Key Features</h2>
+        <ul>
+            <li>🔥 Deflationary Burn Mechanism</li>
+            <li>💰 Staking Rewards</li>
+            <li>📈 Long-term Supply Reduction</li>
+            <li>⚖️ Balanced Ecosystem Growth</li>
+            <li>🌐 Multi-Chain & Cross-Chain Compatible</li>
+            <li>🛡️ Secure Smart Contract</li>
+            <li>🎨 NFT & DeFi Ready</li>
+        </ul>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact">
+        <h2>Contact</h2>
+        <p>Reach out to us via <a href="mailto:info@dailyremitcoin.com">info@dailyremitcoin.com</a> or join our community channels.</p>
     </section>
 
     <!-- Footer -->
     <footer>
-        <div class="container">
-            <p>&copy; 2026 Daily Remit Coin (DRC). All Rights Reserved.</p>
-        </div>
+        <p>&copy; 2026 Daily Remit Coin. All Rights Reserved.</p>
+        <p>Follow us on social media: <a href="#">Twitter</a> | <a href="#">Telegram</a> | <a href="#">Discord</a></p>
     </footer>
 
-    <!-- JS -->
+    <!-- Custom JS -->
     <script src="script.js"></script>
+
 </body>
 </html>
