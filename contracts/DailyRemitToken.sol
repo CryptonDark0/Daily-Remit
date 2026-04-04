@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.30;
+pragma solidity ^0.8.20;
 
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.1/contracts/token/ERC20/ERC20.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.1/contracts/token/ERC20/extensions/ERC20Votes.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.1/contracts/access/Ownable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.1/contracts/security/Pausable.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.1/contracts/token/ERC20/utils/SafeERC20.sol";
-import "https://github.com/OpenZeppelin/openzeppelin-contracts/blob/v5.0.1/contracts/security/ReentrancyGuard.sol";
-
+// OpenZeppelin
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
+import "@openzeppelin/contracts/security/Pausable.sol";
+import "@openzeppelin/contracts/token/ERC20/utils/SafeERC20.sol";
 
 interface IDEXRouter {
     function swapExactTokensForTokens(
@@ -19,119 +18,94 @@ interface IDEXRouter {
     ) external returns (uint[] memory amounts);
 }
 
-contract DailyRemitToken is ERC20, ERC20Votes, Ownable, Pausable, ReentrancyGuard {
+contract DailyRemitToken is ERC20, Ownable, ReentrancyGuard, Pausable {
     using SafeERC20 for IERC20;
 
-    // Fee settings (basis points, 100 = 1%)
-    uint256 public buybackFee;
-    uint256 public burnFee;
-    uint256 public devFee;
-    uint256 public liquidityFee;
-    uint256 public marketingFee;
+    // ------------------ WALLET ADDRESSES ------------------
+    address public devWallet = 0xAE1e1c414D88F5dF9dF3f75DE05924EBFFbDaA84;
+    address public marketingWallet = 0xD346F0787e0FB3d21D7370E6708C55107BB0E150;
 
-    uint256 public constant MAX_FEE = 10000; // 100% in basis points
+    // ------------------ SUPPLY ------------------
+    uint256 public constant MAX_SUPPLY = 1_000_000_000 * 10**18;
+    uint256 public constant MIN_SUPPLY = 100_000_000 * 10**18;
 
-    // Wallets
-    address public devWallet;
-    address public marketingWallet;
+    // ------------------ FEES ------------------
+    uint256 public burnFee = 100;       // 1%
+    uint256 public devFee = 100;        // 1%
+    uint256 public marketingFee = 100;  // 1%
+    uint256 public constant MAX_FEE = 10000;
 
-    // Burn safeguard
-    uint256 public constant MIN_SUPPLY = 100_000_000 * 10 ** 18; // stop burning if supply < 100M
+    // ------------------ SECURITY ------------------
+    mapping(address => bool) public approvedRouters;
 
-    constructor()
-        ERC20("DailyRemitToken", "DRT")
-        ERC20Permit("DailyRemitToken") // required for ERC20Votes
-        Ownable() // deployer becomes initial owner
-    {
-        // Mint 1 billion tokens to deployer
-        _mint(msg.sender, 1_000_000_000 * 10 ** decimals());
+    // ------------------ EVENTS ------------------
+    event SwapAndSendExecuted(address router, uint256 amountIn, address to);
 
-        // Assign wallets
-        devWallet = 0xAE1e1c414D88F5dF9dF3f75DE05924EBFFbDaA84;
-        marketingWallet = 0xD346F0787e0FB3d21D7370E6708C55107BB0E150;
-
-        // Default fees (balanced at 5% total)
-        buybackFee   = 100; // 1%
-        burnFee      = 100; // 1%
-        devFee       = 100; // 1%
-        liquidityFee = 100; // 1%
-        marketingFee = 100; // 1%
+    constructor() ERC20("DailyRemitToken", "DRT") Ownable(msg.sender) {
+        _mint(msg.sender, MAX_SUPPLY);
     }
 
-    modifier onlyFeeSetter() {
-        require(msg.sender == owner(), "Only owner");
-        _;
+    // ------------------ ROUTER MANAGEMENT ------------------
+    function setRouter(address router, bool status) external onlyOwner {
+        approvedRouters[router] = status;
     }
 
-    // --- Fee Management ---
+    // ------------------ FEE MANAGEMENT ------------------
     function setFees(
-        uint256 _buybackFee,
         uint256 _burnFee,
         uint256 _devFee,
-        uint256 _liquidityFee,
         uint256 _marketingFee
-    ) external onlyFeeSetter {
-        require(
-            _buybackFee + _burnFee + _devFee + _liquidityFee + _marketingFee <= MAX_FEE,
-            "Total fees must be <= 100%"
-        );
-
-        buybackFee   = _buybackFee;
-        burnFee      = _burnFee;
-        devFee       = _devFee;
-        liquidityFee = _liquidityFee;
+    ) external onlyOwner {
+        require(_burnFee + _devFee + _marketingFee <= 1000, "Max 10%");
+        burnFee = _burnFee;
+        devFee = _devFee;
         marketingFee = _marketingFee;
     }
 
-    // --- Burn Mechanism with Safeguard ---
+    // ------------------ BURN ------------------
     function burn(uint256 amount) external {
-        require(totalSupply() - amount >= MIN_SUPPLY, "Burn stopped: minimum supply reached");
+        require(totalSupply() - amount >= MIN_SUPPLY, "Below min supply");
         _burn(msg.sender, amount);
     }
 
-    // --- Developer & Marketing Fund Transfers ---
-    function distributeFees(uint256 amount) external onlyFeeSetter {
-        require(balanceOf(msg.sender) >= amount, "Not enough tokens");
-        uint256 devShare = (amount * devFee) / MAX_FEE;
-        uint256 marketingShare = (amount * marketingFee) / MAX_FEE;
-        uint256 burnShare = (amount * burnFee) / MAX_FEE;
+    // ------------------ SWAP AND SEND (FIXED) ------------------
+    // ------------------ SWAP AND SEND ------------------
+function swapAndSend(
+    address router,
+    address to,
+    uint256 amountIn,
+    uint256 amountOutMin,
+    address wrappedToken
+) external onlyOwner nonReentrant whenNotPaused {
 
-        if (devShare > 0) IERC20(address(this)).safeTransfer(devWallet, devShare);
-        if (marketingShare > 0) IERC20(address(this)).safeTransfer(marketingWallet, marketingShare);
-        if (burnShare > 0 && totalSupply() - burnShare >= MIN_SUPPLY) {
-            _burn(msg.sender, burnShare);
-        }
-    }
+    require(amountIn > 0, "Invalid amount");
+    require(router != address(0), "Invalid router");
+    require(to != address(0), "Invalid recipient");
+    require(wrappedToken != address(0), "Invalid wrapped token");
+    require(amountOutMin > 0, "amountOutMin must be > 0");
+    require(balanceOf(address(this)) >= amountIn, "Insufficient balance");
+    require(approvedRouters[router], "Router not approved");
 
-    // --- Swap Functionality with Slippage + Reentrancy Guard ---
-    function swapAndSend(
-        address _router,
-        address _to,
-        uint256 _amountIn,
-        uint256 _amountOutMin, // slippage protection
-        address _wrappedNative // WBNB for BSC, WETH for Ethereum
-    ) external onlyFeeSetter nonReentrant {
-        require(_amountIn > 0, "Amount must be > 0");
-        require(_router != address(0), "Router address invalid");
-        require(_to != address(0), "Recipient address invalid");
-        require(_wrappedNative != address(0), "Wrapped native token invalid");
+    // Approve tokens
+    IERC20(address(this)).safeApprove(router, 0);
+    IERC20(address(this)).safeApprove(router, amountIn);
 
-        IERC20(address(this)).safeIncreaseAllowance(_router, _amountIn);
+    // ✅ FIXED: Declare swapPath properly in memory
+    swapPath[0] = address(this);   // your token
+    swapPath[1] = wrappedToken;    // wrapped token (WBNB, WETH, etc.)
 
-        address[] memory path = new address[](2);
-        path[0] = address(this);
-        path[1] = _wrappedNative;
+    // Execute swap
+    IDEXRouter(router).swapExactTokensForTokens(
+        amountIn,
+        amountOutMin,
+        swapPath,
+        to,
+        block.timestamp
+    );
 
-        IDEXRouter(_router).swapExactTokensForTokens(
-            _amountIn,
-            _amountOutMin,
-            path,
-            _to,
-            block.timestamp
-        );
-    }
-
-    // --- Safety Features ---
+    emit SwapAndSendExecuted(router, amountIn, to);
+}
+    // ------------------ PAUSE CONTROL ------------------
     function pause() external onlyOwner {
         _pause();
     }
@@ -140,33 +114,31 @@ contract DailyRemitToken is ERC20, ERC20Votes, Ownable, Pausable, ReentrancyGuar
         _unpause();
     }
 
-    // --- Required Overrides for ERC20Votes ---
-    function _beforeTokenTransfer(address from, address to, uint256 amount)
-        internal
-        override(ERC20) // only ERC20 defines this
-        whenNotPaused
-    {
-        super._beforeTokenTransfer(from, to, amount);
-    }
+    // ------------------ INTERNAL FEE LOGIC (OPTIONAL USE) ------------------
+    function _transfer(address from, address to, uint256 amount) internal override {
+        if (from == owner() || to == owner()) {
+            super._transfer(from, to, amount);
+            return;
+        }
 
-    function _afterTokenTransfer(address from, address to, uint256 amount)
-        internal
-        override(ERC20, ERC20Votes) // both define this
-    {
-        super._afterTokenTransfer(from, to, amount);
-    }
+        uint256 burnAmount = (amount * burnFee) / MAX_FEE;
+        uint256 devAmount = (amount * devFee) / MAX_FEE;
+        uint256 marketingAmount = (amount * marketingFee) / MAX_FEE;
 
-    function _mint(address to, uint256 amount)
-        internal
-        override(ERC20, ERC20Votes) // both define this
-    {
-        super._mint(to, amount);
-    }
+        uint256 sendAmount = amount - burnAmount - devAmount - marketingAmount;
 
-    function _burn(address from, uint256 amount)
-        internal
-        override(ERC20, ERC20Votes) // both define this
-    {
-        super._burn(from, amount);
+        if (burnAmount > 0 && totalSupply() > MIN_SUPPLY) {
+            _burn(from, burnAmount);
+        }
+
+        if (devAmount > 0) {
+            super._transfer(from, devWallet, devAmount);
+        }
+
+        if (marketingAmount > 0) {
+            super._transfer(from, marketingWallet, marketingAmount);
+        }
+
+        super._transfer(from, to, sendAmount);
     }
 }
