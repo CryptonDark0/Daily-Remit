@@ -1,154 +1,947 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DailyRemit</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DailyRemit - Send and Trade Cryptocurrency with Ease</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        dark: { 50:'#1a1a2e', 100:'#16162a', 200:'#121226', 300:'#0f0f1f', 400:'#0a0a18', 500:'#080814', 900:'#050510' },
+                        gold: { 50:'#fff9e6', 100:'#fff0bf', 200:'#ffe080', 300:'#ffd040', 400:'#f0b90b', 500:'#d4a00a', 600:'#b8860b', 700:'#996f09', 800:'#7a5807', 900:'#5c4105' },
+                        accent: { blue:'#3b82f6', purple:'#8b5cf6', cyan:'#06b6d4', green:'#10b981' }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        display: ['Space Grotesk', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { margin:0; padding:0; box-sizing:border-box; }
+        body { background:#080814; color:#e2e8f0; font-family:'Inter',sans-serif; overflow-x:hidden; }
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+        /* Scrollbar */
+        ::-webkit-scrollbar { width:6px; }
+        ::-webkit-scrollbar-track { background:#0a0a18; }
+        ::-webkit-scrollbar-thumb { background:#d4a00a44; border-radius:3px; }
+        ::-webkit-scrollbar-thumb:hover { background:#d4a00a88; }
 
-<style>
-body {
-  margin:0;
-  font-family:'Inter',sans-serif;
-  background:#020617;
-  color:white;
-}
+        /* Gold gradient text */
+        .gold-text {
+            background: linear-gradient(135deg, #f0b90b 0%, #ffd040 40%, #fff0bf 50%, #ffd040 60%, #d4a00a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
 
-/* NAV */
-.nav {
-  display:flex;
-  justify-content:space-between;
-  padding:20px 40px;
-  position:fixed;
-  width:100%;
-  background:rgba(0,0,0,0.6);
-  backdrop-filter:blur(10px);
-}
+        /* Animated gold border */
+        .gold-border {
+            position: relative;
+            border: 1px solid rgba(240,185,11,0.15);
+        }
+        .gold-border::before {
+            content:'';
+            position:absolute;
+            inset:-1px;
+            border-radius:inherit;
+            padding:1px;
+            background: linear-gradient(135deg, rgba(240,185,11,0.4), transparent 40%, transparent 60%, rgba(240,185,11,0.2));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events:none;
+        }
 
-.nav a {color:#aaa;margin:0 10px;text-decoration:none;}
+        /* Coin glow */
+        .coin-glow {
+            filter: drop-shadow(0 0 40px rgba(240,185,11,0.3)) drop-shadow(0 0 80px rgba(240,185,11,0.15));
+        }
 
-/* HERO */
-.hero {
-  height:100vh;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  text-align:center;
-  background:url('https://images.unsplash.com/photo-1639762681057-408e52192e55') center/cover;
-  position:relative;
-}
+        /* Card hover */
+        .feature-card {
+            background: linear-gradient(180deg, rgba(240,185,11,0.04) 0%, rgba(10,10,24,0.9) 100%);
+            border: 1px solid rgba(240,185,11,0.08);
+            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+        .feature-card:hover {
+            border-color: rgba(240,185,11,0.25);
+            background: linear-gradient(180deg, rgba(240,185,11,0.08) 0%, rgba(10,10,24,0.95) 100%);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.3), 0 0 30px rgba(240,185,11,0.05);
+        }
 
-.hero::after {
-  content:"";
-  position:absolute;
-  inset:0;
-  background:rgba(0,0,0,0.7);
-}
+        /* Grid background */
+        .grid-bg {
+            background-image:
+                linear-gradient(rgba(240,185,11,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(240,185,11,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
 
-.hero-content {
-  position:relative;
-  z-index:2;
-}
+        /* Radial glow */
+        .hero-glow {
+            background: radial-gradient(ellipse 600px 400px at 50% 45%, rgba(240,185,11,0.08) 0%, transparent 70%);
+        }
 
-.hero img {
-  width:180px;
-  animation:float 4s infinite;
-}
+        /* Floating animation */
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-15px) rotate(2deg); }
+        }
+        .float-anim { animation: float 6s ease-in-out infinite; }
 
-@keyframes float {
-  0%,100%{transform:translateY(0);} 
-  50%{transform:translateY(-15px);} 
-}
+        @keyframes float-delay {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        .float-anim-delay { animation: float-delay 5s ease-in-out 1s infinite; }
 
-.hero h1 {font-size:3rem;}
-.hero p {color:#ccc;}
+        @keyframes pulse-glow {
+            0%, 100% { opacity:0.4; transform:scale(1); }
+            50% { opacity:0.8; transform:scale(1.05); }
+        }
+        .pulse-glow { animation: pulse-glow 3s ease-in-out infinite; }
 
-.btn {
-  padding:12px 25px;
-  border:none;
-  border-radius:8px;
-  margin:10px;
-  cursor:pointer;
-}
+        /* Ticker animation */
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-scroll { animation: ticker 30s linear infinite; }
 
-.primary {background:gold;color:black;}
-.secondary {background:transparent;border:1px solid gold;color:white;}
+        /* Fade in on scroll */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s ease, transform 0.7s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-/* CARDS */
-.cards {
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
-  padding:40px;
-  margin-top:-80px;
-}
+        /* Nav active indicator */
+        .nav-link { position:relative; }
+        .nav-link::after {
+            content:'';
+            position:absolute;
+            bottom:-2px; left:50%; width:0; height:2px;
+            background: linear-gradient(90deg, transparent, #f0b90b, transparent);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
+        }
+        .nav-link:hover::after { width:100%; }
 
-.card {
-  background:rgba(255,255,255,0.05);
-  padding:20px;
-  border-radius:12px;
-  border:1px solid rgba(255,255,255,0.1);
-}
+        /* Button shine */
+        .btn-gold {
+            background: linear-gradient(135deg, #f0b90b 0%, #d4a00a 100%);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-gold::before {
+            content:'';
+            position:absolute;
+            top:0; left:-100%; width:100%; height:100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        .btn-gold:hover::before { left:100%; }
 
-/* ABOUT */
-.about {
-  display:flex;
-  flex-wrap:wrap;
-  padding:80px 40px;
-  gap:40px;
-}
+        .btn-outline {
+            border: 1px solid rgba(240,185,11,0.3);
+            transition: all 0.3s ease;
+        }
+        .btn-outline:hover {
+            border-color: rgba(240,185,11,0.6);
+            background: rgba(240,185,11,0.05);
+        }
 
-.about img {width:300px;}
+        /* Stats counter */
+        .stat-divider {
+            width:1px;
+            background: linear-gradient(180deg, transparent, rgba(240,185,11,0.2), transparent);
+        }
 
-/* FOOTER */
-footer {
-  text-align:center;
-  padding:30px;
-  color:#777;
-}
-</style>
+        /* Mobile menu */
+        .mobile-menu {
+            transform: translateX(100%);
+            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .mobile-menu.open { transform: translateX(0); }
 
+        /* Particle canvas */
+        #particles { position:absolute; inset:0; pointer-events:none; z-index:0; }
+
+        /* Section divider */
+        .section-line {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(240,185,11,0.15), transparent);
+        }
+
+        /* Globe wireframe effect */
+        .globe-ring {
+            border: 1px solid rgba(240,185,11,0.1);
+            border-radius: 50%;
+            position: absolute;
+        }
+
+        /* Remittance flow line */
+        @keyframes flow-dash {
+            to { stroke-dashoffset: -20; }
+        }
+        .flow-line {
+            stroke-dasharray: 8 6;
+            animation: flow-dash 1.5s linear infinite;
+        }
+    </style>
 </head>
-<body>
+<body class="grid-bg">
 
-<div class="nav">
-  <div>DRC</div>
-  <div>
-    <a href="#">Market</a>
-    <a href="#">Wallet</a>
-    <a href="#">Docs</a>
-  </div>
-</div>
+    <!-- ===================== NAVBAR ===================== -->
+    <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(8,8,20,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(240,185,11,0.06);">
+        <div class="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2.5 group">
+                <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center shadow-lg shadow-gold-400/20 group-hover:shadow-gold-400/40 transition-shadow">
+                    <span class="font-display font-bold text-dark-900 text-sm">DR</span>
+                </div>
+                <span class="font-display font-semibold text-lg tracking-tight text-white">Daily<span class="text-gold-400">Remit</span></span>
+            </a>
 
-<section class="hero">
-  <div class="hero-content">
-    <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png">
-    <h1>Welcome to DailyRemit</h1>
-    <p>Send and trade cryptocurrency with ease</p>
-    <button class="btn primary">Get Started</button>
-    <button class="btn secondary">Learn More</button>
-  </div>
-</section>
+            <!-- Desktop Nav -->
+            <div class="hidden md:flex items-center gap-1">
+                <a href="#market" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">Market</a>
+                <a href="#trade" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">Trade</a>
+                <a href="#remittance" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">Remittance</a>
+                <a href="#about" class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors">About</a>
+                <div class="relative ml-2" id="moreBtn">
+                    <button class="nav-link px-4 py-2 text-sm font-medium text-gray-300 hover:text-white transition-colors flex items-center gap-1">
+                        More <i class="fas fa-chevron-down text-[10px] transition-transform" id="moreArrow"></i>
+                    </button>
+                    <div id="moreDropdown" class="absolute top-full right-0 mt-2 w-48 rounded-xl overflow-hidden opacity-0 invisible translate-y-2 transition-all duration-200" style="background:rgba(20,20,40,0.95);border:1px solid rgba(240,185,11,0.1);backdrop-filter:blur(20px);">
+                        <a href="#" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"><i class="fas fa-book w-5 text-gold-400/60"></i> Learn</a>
+                        <a href="#" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"><i class="fas fa-newspaper w-5 text-gold-400/60"></i> Blog</a>
+                        <a href="#" class="block px-4 py-2.5 text-sm text-gray-300 hover:text-white hover:bg-white/5 transition-colors"><i class="fas fa-question-circle w-5 text-gold-400/60"></i> Support</a>
+                    </div>
+                </div>
+            </div>
 
-<section class="cards">
-  <div class="card">Trade Crypto</div>
-  <div class="card">Remit Funds</div>
-  <div class="card">Earn Rewards</div>
-  <div class="card">Secure Wallet</div>
-</section>
+            <!-- Right actions -->
+            <div class="hidden md:flex items-center gap-3">
+                <button class="btn-outline px-5 py-2 rounded-lg text-sm font-medium text-gold-300">
+                    Log In
+                </button>
+                <button class="btn-gold px-5 py-2 rounded-lg text-sm font-semibold text-dark-900">
+                    Sign Up
+                </button>
+            </div>
 
-<section class="about">
-  <div>
-    <h2>What is DailyRemit?</h2>
-    <p>Modern crypto platform for trading and remittance.</p>
-  </div>
-  <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png">
-</section>
+            <!-- Mobile hamburger -->
+            <button id="mobileToggle" class="md:hidden w-10 h-10 flex items-center justify-center text-gray-300 hover:text-white">
+                <i class="fas fa-bars text-lg"></i>
+            </button>
+        </div>
+    </nav>
 
-<footer>
-  <p>© 2026 DailyRemit</p>
-</footer>
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="mobile-menu fixed inset-0 z-[60]" style="background:rgba(8,8,20,0.98);backdrop-filter:blur(20px);">
+        <div class="flex items-center justify-between px-6 h-16 border-b border-white/5">
+            <span class="font-display font-semibold text-lg text-white">Daily<span class="text-gold-400">Remit</span></span>
+            <button id="mobileClose" class="w-10 h-10 flex items-center justify-center text-gray-300 hover:text-white">
+                <i class="fas fa-times text-lg"></i>
+            </button>
+        </div>
+        <div class="flex flex-col p-6 gap-1">
+            <a href="#market" class="mobile-nav-link py-3 px-4 rounded-lg text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors">Market</a>
+            <a href="#trade" class="mobile-nav-link py-3 px-4 rounded-lg text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors">Trade</a>
+            <a href="#remittance" class="mobile-nav-link py-3 px-4 rounded-lg text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors">Remittance</a>
+            <a href="#about" class="mobile-nav-link py-3 px-4 rounded-lg text-lg font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors">About</a>
+            <div class="section-line my-4"></div>
+            <button class="btn-outline w-full py-3 rounded-lg text-base font-medium text-gold-300 mb-2">Log In</button>
+            <button class="btn-gold w-full py-3 rounded-lg text-base font-semibold text-dark-900">Sign Up</button>
+        </div>
+    </div>
 
+    <!-- ===================== HERO ===================== -->
+    <section class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+        <canvas id="particles"></canvas>
+        <div class="hero-glow absolute inset-0 z-0"></div>
+
+        <!-- Decorative circles -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] rounded-full border border-gold-400/5 pulse-glow"></div>
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] rounded-full border border-gold-400/[0.03]"></div>
+
+        <div class="relative z-10 max-w-5xl mx-auto px-6 text-center">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full mb-8" style="background:rgba(240,185,11,0.06);border:1px solid rgba(240,185,11,0.12);">
+                <span class="w-2 h-2 rounded-full bg-accent-green animate-pulse"></span>
+                <span class="text-xs font-medium text-gold-300/80">DRC Token Live on Mainnet</span>
+            </div>
+
+            <!-- Coin -->
+            <div class="relative mx-auto w-48 h-48 md:w-64 md:h-64 mb-10 float-anim">
+                <div class="absolute inset-0 rounded-full bg-gradient-to-br from-gold-400/20 to-transparent blur-2xl"></div>
+                <svg viewBox="0 0 200 200" class="w-full h-full coin-glow relative z-10">
+                    <defs>
+                        <linearGradient id="coinGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffd040"/>
+                            <stop offset="30%" style="stop-color:#f0b90b"/>
+                            <stop offset="60%" style="stop-color:#d4a00a"/>
+                            <stop offset="100%" style="stop-color:#996f09"/>
+                        </linearGradient>
+                        <linearGradient id="coinInner" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#ffe080"/>
+                            <stop offset="50%" style="stop-color:#f0b90b"/>
+                            <stop offset="100%" style="stop-color:#b8860b"/>
+                        </linearGradient>
+                        <filter id="coinShadow">
+                            <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#000" flood-opacity="0.4"/>
+                        </filter>
+                    </defs>
+                    <!-- Outer ring -->
+                    <circle cx="100" cy="100" r="95" fill="url(#coinGrad)" filter="url(#coinShadow)"/>
+                    <circle cx="100" cy="100" r="88" fill="none" stroke="rgba(255,255,255,0.15)" stroke-width="1"/>
+                    <!-- Inner circle -->
+                    <circle cx="100" cy="100" r="78" fill="url(#coinInner)"/>
+                    <circle cx="100" cy="100" r="72" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+                    <!-- DRC Text -->
+                    <text x="100" y="92" text-anchor="middle" font-family="Space Grotesk,sans-serif" font-size="42" font-weight="700" fill="#1a0f00">DRC</text>
+                    <text x="100" y="118" text-anchor="middle" font-family="Inter,sans-serif" font-size="10" font-weight="500" fill="rgba(26,15,0,0.5)" letter-spacing="3">DAILY REMIT</text>
+                    <!-- Decorative dots -->
+                    <circle cx="100" cy="20" r="3" fill="rgba(255,255,255,0.2)"/>
+                    <circle cx="100" cy="180" r="3" fill="rgba(255,255,255,0.2)"/>
+                    <circle cx="20" cy="100" r="3" fill="rgba(255,255,255,0.2)"/>
+                    <circle cx="180" cy="100" r="3" fill="rgba(255,255,255,0.2)"/>
+                </svg>
+            </div>
+
+            <!-- Heading -->
+            <h1 class="font-display text-4xl sm:text-5xl md:text-7xl font-bold tracking-tight leading-[1.1] mb-6">
+                <span class="text-white">Welcome to</span><br>
+                <span class="gold-text">DailyRemit</span>
+            </h1>
+            <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10 leading-relaxed">
+                Send and trade cryptocurrency with ease.
+            </p>
+
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
+                <button class="btn-gold px-8 py-3.5 rounded-xl text-base font-semibold text-dark-900 flex items-center gap-2 shadow-lg shadow-gold-400/20 hover:shadow-gold-400/30 transition-shadow">
+                    <i class="fas fa-rocket text-sm"></i> Start Trading
+                </button>
+                <button class="btn-outline px-8 py-3.5 rounded-xl text-base font-medium text-gold-300 flex items-center gap-2">
+                    <i class="fas fa-play-circle text-sm"></i> Watch Demo
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
+                <div class="text-center">
+                    <div class="font-display text-2xl md:text-3xl font-bold text-white">$2.4B+</div>
+                    <div class="text-xs text-gray-500 mt-1">Trading Volume</div>
+                </div>
+                <div class="stat-divider h-10 hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="font-display text-2xl md:text-3xl font-bold text-white">180+</div>
+                    <div class="text-xs text-gray-500 mt-1">Countries</div>
+                </div>
+                <div class="stat-divider h-10 hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="font-display text-2xl md:text-3xl font-bold text-white">500K+</div>
+                    <div class="text-xs text-gray-500 mt-1">Active Users</div>
+                </div>
+                <div class="stat-divider h-10 hidden sm:block"></div>
+                <div class="text-center">
+                    <div class="font-display text-2xl md:text-3xl font-bold text-white">0.1%</div>
+                    <div class="text-xs text-gray-500 mt-1">Trading Fee</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Scroll indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40">
+            <span class="text-[10px] text-gray-500 tracking-widest uppercase">Scroll</span>
+            <div class="w-5 h-8 rounded-full border border-gray-600 flex justify-center pt-1.5">
+                <div class="w-1 h-2 rounded-full bg-gray-500 animate-bounce"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== TICKER BAR ===================== -->
+    <div class="relative overflow-hidden py-4" style="background:rgba(240,185,11,0.02);border-top:1px solid rgba(240,185,11,0.06);border-bottom:1px solid rgba(240,185,11,0.06);">
+        <div class="ticker-scroll flex items-center gap-10 whitespace-nowrap" style="width:max-content;">
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">BTC/USDT</span> <span class="text-accent-green">$67,245.80</span> <span class="text-accent-green text-xs">+2.34%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">ETH/USDT</span> <span class="text-accent-green">$3,421.50</span> <span class="text-accent-green text-xs">+1.87%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">DRC/USDT</span> <span class="text-gold-400">$1.2450</span> <span class="text-accent-green text-xs">+5.62%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">BNB/USDT</span> <span class="text-red-400">$584.30</span> <span class="text-red-400 text-xs">-0.45%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">SOL/USDT</span> <span class="text-accent-green">$172.90</span> <span class="text-accent-green text-xs">+3.21%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">XRP/USDT</span> <span class="text-red-400">$0.6234</span> <span class="text-red-400 text-xs">-1.12%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">ADA/USDT</span> <span class="text-accent-green">$0.4821</span> <span class="text-accent-green text-xs">+0.98%</span></span>
+            <!-- Duplicate for seamless loop -->
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">BTC/USDT</span> <span class="text-accent-green">$67,245.80</span> <span class="text-accent-green text-xs">+2.34%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">ETH/USDT</span> <span class="text-accent-green">$3,421.50</span> <span class="text-accent-green text-xs">+1.87%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">DRC/USDT</span> <span class="text-gold-400">$1.2450</span> <span class="text-accent-green text-xs">+5.62%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">BNB/USDT</span> <span class="text-red-400">$584.30</span> <span class="text-red-400 text-xs">-0.45%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">SOL/USDT</span> <span class="text-accent-green">$172.90</span> <span class="text-accent-green text-xs">+3.21%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">XRP/USDT</span> <span class="text-red-400">$0.6234</span> <span class="text-red-400 text-xs">-1.12%</span></span>
+            <span class="flex items-center gap-2 text-sm"><span class="text-white font-medium">ADA/USDT</span> <span class="text-accent-green">$0.4821</span> <span class="text-accent-green text-xs">+0.98%</span></span>
+        </div>
+    </div>
+
+    <!-- ===================== TRADE CRYPTO FEATURES ===================== -->
+    <section id="trade" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center mb-16 fade-up">
+                <span class="inline-block text-xs font-semibold tracking-widest uppercase text-gold-400/70 mb-4">Our Services</span>
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-4">Trade Crypto <span class="gold-text">Your Way</span></h2>
+                <p class="text-gray-400 max-w-xl mx-auto">Everything you need to buy, sell, and manage your digital assets — all in one platform.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5 fade-up">
+                <!-- Card 1 -->
+                <div class="feature-card rounded-2xl p-7 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-400/10 to-gold-600/5 border border-gold-400/10 flex items-center justify-center mb-5 group-hover:border-gold-400/25 transition-colors">
+                        <i class="fas fa-exchange-alt text-gold-400"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Spot Trading</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Trade hundreds of crypto pairs with high liquidity and ultra-low fees starting from 0.1%.</p>
+                </div>
+                <!-- Card 2 -->
+                <div class="feature-card rounded-2xl p-7 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-blue/10 to-accent-blue/5 border border-accent-blue/10 flex items-center justify-center mb-5 group-hover:border-accent-blue/25 transition-colors">
+                        <i class="fas fa-chart-line text-accent-blue"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Advanced Charts</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Professional trading tools with real-time data, technical indicators, and drawing tools.</p>
+                </div>
+                <!-- Card 3 -->
+                <div class="feature-card rounded-2xl p-7 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-purple/10 to-accent-purple/5 border border-accent-purple/10 flex items-center justify-center mb-5 group-hover:border-accent-purple/25 transition-colors">
+                        <i class="fas fa-wallet text-accent-purple"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Secure Wallet</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Multi-signature cold storage with 24/7 monitoring. Your assets are always protected.</p>
+                </div>
+                <!-- Card 4 -->
+                <div class="feature-card rounded-2xl p-7 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-cyan/10 to-accent-cyan/5 border border-accent-cyan/10 flex items-center justify-center mb-5 group-hover:border-accent-cyan/25 transition-colors">
+                        <i class="fas fa-bolt text-accent-cyan"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Instant Execution</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Lightning-fast order matching engine processing millions of transactions per second.</p>
+                </div>
+                <!-- Card 5 -->
+                <div class="feature-card rounded-2xl p-7 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-accent-green/10 to-accent-green/5 border border-accent-green/10 flex items-center justify-center mb-5 group-hover:border-accent-green/25 transition-colors">
+                        <i class="fas fa-coins text-accent-green"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Staking Rewards</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Earn passive income by staking DRC and other supported tokens with competitive APY.</p>
+                </div>
+                <!-- Card 6 -->
+                <div class="feature-card rounded-2xl p-7 group">
+                    <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-gold-400/10 to-gold-600/5 border border-gold-400/10 flex items-center justify-center mb-5 group-hover:border-gold-400/25 transition-colors">
+                        <i class="fas fa-mobile-alt text-gold-400"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Mobile App</h3>
+                    <p class="text-sm text-gray-400 leading-relaxed">Trade on the go with our intuitive mobile application available on iOS and Android.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-line max-w-5xl mx-auto"></div>
+
+    <!-- ===================== WHAT IS DAILYREMIT ===================== -->
+    <section id="about" class="py-24 md:py-32 relative">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                <!-- Left: Visual -->
+                <div class="relative fade-up">
+                    <div class="relative rounded-2xl overflow-hidden" style="background:linear-gradient(135deg, rgba(240,185,11,0.05), rgba(10,10,24,0.9));border:1px solid rgba(240,185,11,0.08);">
+                        <img src="https://picsum.photos/seed/dailyremit-about/640/480.jpg" alt="DailyRemit Platform" class="w-full h-auto opacity-60" style="mix-blend-mode:luminosity;">
+                        <div class="absolute inset-0 bg-gradient-to-t from-dark-500 via-dark-500/50 to-transparent"></div>
+                        <div class="absolute bottom-0 left-0 right-0 p-8">
+                            <div class="flex items-center gap-4">
+                                <div class="w-3 h-3 rounded-full bg-accent-green animate-pulse"></div>
+                                <span class="text-sm font-medium text-gray-300">Platform Active</span>
+                                <span class="text-xs text-gray-500 ml-auto">99.99% Uptime</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Floating card -->
+                    <div class="absolute -bottom-6 -right-4 md:-right-8 rounded-xl p-5 float-anim-delay" style="background:rgba(20,20,40,0.95);border:1px solid rgba(240,185,11,0.12);backdrop-filter:blur(16px);min-width:180px;">
+                        <div class="text-xs text-gray-500 mb-1">DRC Price</div>
+                        <div class="font-display text-xl font-bold text-white">$1.2450</div>
+                        <div class="text-xs text-accent-green mt-1"><i class="fas fa-arrow-up text-[10px]"></i> +5.62% today</div>
+                    </div>
+                </div>
+
+                <!-- Right: Content -->
+                <div class="fade-up">
+                    <span class="inline-block text-xs font-semibold tracking-widest uppercase text-gold-400/70 mb-4">About Us</span>
+                    <h2 class="font-display text-3xl md:text-4xl font-bold text-white mb-6 leading-tight">
+                        What is <span class="gold-text">DailyRemit</span>?
+                    </h2>
+                    <p class="text-gray-400 leading-relaxed mb-6">
+                        DailyRemit is a next-generation cryptocurrency platform that combines the power of decentralized finance with the simplicity of traditional remittance services. Our native token, DRC, powers the entire ecosystem.
+                    </p>
+
+                    <div class="space-y-5">
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-gold-400/10 border border-gold-400/10 flex items-center justify-center">
+                                <i class="fas fa-sync-alt text-gold-400 text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-display font-semibold text-white mb-1">Crypto Trading</h4>
+                                <p class="text-sm text-gray-400">Buy, sell, and swap 200+ cryptocurrencies with industry-leading execution speeds.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-accent-blue/10 border border-accent-blue/10 flex items-center justify-center">
+                                <i class="fas fa-paper-plane text-accent-blue text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-display font-semibold text-white mb-1">Global Remittance</h4>
+                                <p class="text-sm text-gray-400">Send money across borders instantly using crypto, with automatic fiat conversion.</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-shrink-0 w-10 h-10 rounded-lg bg-accent-purple/10 border border-accent-purple/10 flex items-center justify-center">
+                                <i class="fas fa-shield-alt text-accent-purple text-sm"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-display font-semibold text-white mb-1">Regulated & Compliant</h4>
+                                <p class="text-sm text-gray-400">Fully licensed and compliant with international financial regulations for your safety.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-line max-w-5xl mx-auto"></div>
+
+    <!-- ===================== NEW ERA OF REMITTANCE ===================== -->
+    <section id="remittance" class="py-24 md:py-32 relative overflow-hidden">
+        <!-- Background glow -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] rounded-full" style="background:radial-gradient(ellipse, rgba(139,92,246,0.06) 0%, transparent 70%);"></div>
+
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-16 fade-up">
+                <span class="inline-block text-xs font-semibold tracking-widest uppercase text-accent-purple/70 mb-4">Global Reach</span>
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-4">A New Era of <span class="gold-text">Remittance</span></h2>
+                <p class="text-gray-400 max-w-2xl mx-auto">Break free from traditional banking limitations. Send money anywhere in the world, instantly and affordably.</p>
+            </div>
+
+            <!-- Globe visualization -->
+            <div class="relative max-w-3xl mx-auto mb-20 fade-up">
+                <div class="relative aspect-square max-w-md mx-auto">
+                    <!-- Globe rings -->
+                    <div class="globe-ring absolute inset-[5%] pulse-glow"></div>
+                    <div class="globe-ring absolute inset-[15%]" style="animation:pulse-glow 3s ease-in-out 0.5s infinite;"></div>
+                    <div class="globe-ring absolute inset-[28%]"></div>
+                    <div class="globe-ring absolute inset-[42%]"></div>
+
+                    <!-- Center icon -->
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="w-20 h-20 rounded-full bg-gradient-to-br from-gold-400/20 to-accent-purple/10 border border-gold-400/20 flex items-center justify-center">
+                            <i class="fas fa-globe-americas text-3xl text-gold-400"></i>
+                        </div>
+                    </div>
+
+                    <!-- Location dots -->
+                    <div class="absolute top-[15%] left-[25%] flex items-center gap-2 float-anim">
+                        <div class="w-3 h-3 rounded-full bg-gold-400 shadow-lg shadow-gold-400/40"></div>
+                        <span class="text-xs font-medium text-gold-300 hidden sm:block">USA</span>
+                    </div>
+                    <div class="absolute top-[20%] right-[15%] flex items-center gap-2 float-anim-delay">
+                        <div class="w-3 h-3 rounded-full bg-accent-blue shadow-lg shadow-accent-blue/40"></div>
+                        <span class="text-xs font-medium text-blue-300 hidden sm:block">UK</span>
+                    </div>
+                    <div class="absolute bottom-[25%] left-[10%] flex items-center gap-2 float-anim">
+                        <div class="w-3 h-3 rounded-full bg-accent-green shadow-lg shadow-accent-green/40"></div>
+                        <span class="text-xs font-medium text-green-300 hidden sm:block">NG</span>
+                    </div>
+                    <div class="absolute bottom-[20%] right-[20%] flex items-center gap-2 float-anim-delay">
+                        <div class="w-3 h-3 rounded-full bg-accent-purple shadow-lg shadow-accent-purple/40"></div>
+                        <span class="text-xs font-medium text-purple-300 hidden sm:block">PH</span>
+                    </div>
+                    <div class="absolute top-[45%] left-[5%] flex items-center gap-2 float-anim-delay">
+                        <div class="w-3 h-3 rounded-full bg-accent-cyan shadow-lg shadow-accent-cyan/40"></div>
+                        <span class="text-xs font-medium text-cyan-300 hidden sm:block">BR</span>
+                    </div>
+
+                    <!-- SVG connection lines -->
+                    <svg class="absolute inset-0 w-full h-full" viewBox="0 0 400 400">
+                        <line x1="125" y1="70" x2="320" y2="85" class="flow-line" stroke="rgba(240,185,11,0.15)" stroke-width="1"/>
+                        <line x1="125" y1="70" x2="50" y2="300" class="flow-line" stroke="rgba(240,185,11,0.15)" stroke-width="1"/>
+                        <line x1="320" y1="85" x2="305" y2="310" class="flow-line" stroke="rgba(59,130,246,0.15)" stroke-width="1"/>
+                        <line x1="50" y1="300" x2="305" y2="310" class="flow-line" stroke="rgba(16,185,129,0.15)" stroke-width="1"/>
+                        <line x1="30" y1="185" x2="125" y2="70" class="flow-line" stroke="rgba(6,182,212,0.15)" stroke-width="1"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Remittance features -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-5 fade-up">
+                <div class="feature-card rounded-2xl p-8 text-center">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-5 bg-gradient-to-br from-gold-400/10 to-transparent border border-gold-400/10 flex items-center justify-center">
+                        <i class="fas fa-clock text-xl text-gold-400"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Instant Transfers</h3>
+                    <p class="text-sm text-gray-400">Send crypto globally in seconds. No more waiting days for cross-border transfers to clear.</p>
+                </div>
+                <div class="feature-card rounded-2xl p-8 text-center">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-5 bg-gradient-to-br from-accent-green/10 to-transparent border border-accent-green/10 flex items-center justify-center">
+                        <i class="fas fa-percentage text-xl text-accent-green"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Low Fees</h3>
+                    <p class="text-sm text-gray-400">Save up to 80% compared to traditional remittance services. Transparent pricing, no hidden charges.</p>
+                </div>
+                <div class="feature-card rounded-2xl p-8 text-center">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-5 bg-gradient-to-br from-accent-cyan/10 to-transparent border border-accent-cyan/10 flex items-center justify-center">
+                        <i class="fas fa-money-bill-wave text-xl text-accent-cyan"></i>
+                    </div>
+                    <h3 class="font-display text-lg font-semibold text-white mb-2">Auto Conversion</h3>
+                    <p class="text-sm text-gray-400">Recipients get funds in their local currency automatically. Support for 50+ fiat currencies.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-line max-w-5xl mx-auto"></div>
+
+    <!-- ===================== MARKET PREVIEW ===================== -->
+    <section id="market" class="py-24 md:py-32 relative">
+        <div class="max-w-5xl mx-auto px-6">
+            <div class="text-center mb-12 fade-up">
+                <span class="inline-block text-xs font-semibold tracking-widest uppercase text-gold-400/70 mb-4">Live Market</span>
+                <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-4">Top <span class="gold-text">Markets</span></h2>
+                <p class="text-gray-400 max-w-xl mx-auto">Track real-time prices of the most popular cryptocurrencies on our platform.</p>
+            </div>
+
+            <!-- Market table -->
+            <div class="rounded-2xl overflow-hidden fade-up" style="background:rgba(15,15,31,0.8);border:1px solid rgba(240,185,11,0.06);">
+                <!-- Table header -->
+                <div class="grid grid-cols-12 gap-4 px-6 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider" style="background:rgba(240,185,11,0.02);border-bottom:1px solid rgba(240,185,11,0.06);">
+                    <div class="col-span-4 sm:col-span-3">Pair</div>
+                    <div class="col-span-3 sm:col-span-2 text-right">Price</div>
+                    <div class="col-span-2 sm:col-span-2 text-right hidden sm:block">24h Change</div>
+                    <div class="col-span-2 hidden md:block text-right">24h Volume</div>
+                    <div class="col-span-2 text-right">Action</div>
+                </div>
+                <!-- Rows -->
+                <div class="divide-y divide-white/[0.03]" id="marketRows">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+
+            <div class="text-center mt-8 fade-up">
+                <a href="#" class="inline-flex items-center gap-2 text-sm font-medium text-gold-400 hover:text-gold-300 transition-colors">
+                    View All Markets <i class="fas fa-arrow-right text-xs"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-line max-w-5xl mx-auto"></div>
+
+    <!-- ===================== CTA SECTION ===================== -->
+    <section class="py-24 md:py-32 relative">
+        <div class="max-w-4xl mx-auto px-6 text-center fade-up">
+            <div class="relative rounded-3xl p-12 md:p-16 overflow-hidden" style="background:linear-gradient(135deg, rgba(240,185,11,0.06), rgba(139,92,246,0.04), rgba(10,10,24,0.95));border:1px solid rgba(240,185,11,0.08);">
+                <!-- Decorative -->
+                <div class="absolute top-0 right-0 w-64 h-64 rounded-full" style="background:radial-gradient(circle, rgba(240,185,11,0.08), transparent 70%);"></div>
+                <div class="absolute bottom-0 left-0 w-48 h-48 rounded-full" style="background:radial-gradient(circle, rgba(139,92,246,0.06), transparent 70%);"></div>
+
+                <div class="relative z-10">
+                    <h2 class="font-display text-3xl md:text-5xl font-bold text-white mb-4">Ready to Get Started?</h2>
+                    <p class="text-gray-400 text-lg mb-8 max-w-xl mx-auto">Join over 500,000 users who trust DailyRemit for their crypto trading and remittance needs.</p>
+                    <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+                        <button class="btn-gold px-8 py-4 rounded-xl text-base font-semibold text-dark-900 flex items-center gap-2 shadow-lg shadow-gold-400/20">
+                            <i class="fas fa-user-plus text-sm"></i> Create Free Account
+                        </button>
+                        <button class="btn-outline px-8 py-4 rounded-xl text-base font-medium text-gold-300 flex items-center gap-2">
+                            <i class="fas fa-file-alt text-sm"></i> Read Documentation
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===================== FOOTER ===================== -->
+    <footer style="background:rgba(5,5,16,0.9);border-top:1px solid rgba(240,185,11,0.05);">
+        <div class="max-w-7xl mx-auto px-6 py-16">
+            <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-10 mb-12">
+                <!-- Brand -->
+                <div class="col-span-2 md:col-span-4 lg:col-span-1 mb-4 lg:mb-0">
+                    <a href="#" class="flex items-center gap-2.5 mb-4">
+                        <div class="w-9 h-9 rounded-lg bg-gradient-to-br from-gold-400 to-gold-600 flex items-center justify-center">
+                            <span class="font-display font-bold text-dark-900 text-sm">DR</span>
+                        </div>
+                        <span class="font-display font-semibold text-lg text-white">Daily<span class="text-gold-400">Remit</span></span>
+                    </a>
+                    <p class="text-sm text-gray-500 leading-relaxed mb-4">The future of crypto trading and global remittance, powered by DRC.</p>
+                    <div class="flex items-center gap-3">
+                        <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-gold-400 hover:bg-gold-400/5 transition-all" style="border:1px solid rgba(255,255,255,0.05);"><i class="fab fa-twitter text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-gold-400 hover:bg-gold-400/5 transition-all" style="border:1px solid rgba(255,255,255,0.05);"><i class="fab fa-telegram text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-gold-400 hover:bg-gold-400/5 transition-all" style="border:1px solid rgba(255,255,255,0.05);"><i class="fab fa-discord text-sm"></i></a>
+                        <a href="#" class="w-9 h-9 rounded-lg flex items-center justify-center text-gray-500 hover:text-gold-400 hover:bg-gold-400/5 transition-all" style="border:1px solid rgba(255,255,255,0.05);"><i class="fab fa-medium text-sm"></i></a>
+                    </div>
+                </div>
+                <!-- Products -->
+                <div>
+                    <h4 class="font-display font-semibold text-white text-sm mb-4">Products</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Spot Trading</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">P2P Trading</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Remittance</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Staking</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Mobile App</a></li>
+                    </ul>
+                </div>
+                <!-- Resources -->
+                <div>
+                    <h4 class="font-display font-semibold text-white text-sm mb-4">Resources</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Documentation</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">API Reference</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Tutorials</a></li>
+                    </ul>
+                </div>
+                <!-- Company -->
+                <div>
+                    <h4 class="font-display font-semibold text-white text-sm mb-4">Company</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">About Us</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Press</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Contact</a></li>
+                    </ul>
+                </div>
+                <!-- Legal -->
+                <div>
+                    <h4 class="font-display font-semibold text-white text-sm mb-4">Legal</h4>
+                    <ul class="space-y-2.5">
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="text-sm text-gray-500 hover:text-gray-300 transition-colors">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="section-line mb-8"></div>
+
+            <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+                <p class="text-xs text-gray-600">© 2026 DailyRemit. All rights reserved.</p>
+                <div class="flex items-center gap-4">
+                    <span class="flex items-center gap-1.5 text-xs text-gray-600"><i class="fas fa-shield-alt text-gold-400/40"></i> SOC 2 Certified</span>
+                    <span class="flex items-center gap-1.5 text-xs text-gray-600"><i class="fas fa-lock text-gold-400/40"></i> AES-256 Encryption</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== JAVASCRIPT ===================== -->
+    <script>
+        // ---- Particles ----
+        (function() {
+            const canvas = document.getElementById('particles');
+            const ctx = canvas.getContext('2d');
+            let particles = [];
+            let w, h;
+
+            function resize() {
+                const section = canvas.parentElement;
+                w = canvas.width = section.offsetWidth;
+                h = canvas.height = section.offsetHeight;
+            }
+
+            function init() {
+                resize();
+                particles = [];
+                const count = Math.min(60, Math.floor((w * h) / 20000));
+                for (let i = 0; i < count; i++) {
+                    particles.push({
+                        x: Math.random() * w,
+                        y: Math.random() * h,
+                        vx: (Math.random() - 0.5) * 0.3,
+                        vy: (Math.random() - 0.5) * 0.3,
+                        r: Math.random() * 1.5 + 0.5,
+                        alpha: Math.random() * 0.3 + 0.1
+                    });
+                }
+            }
+
+            function draw() {
+                ctx.clearRect(0, 0, w, h);
+                particles.forEach(p => {
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    if (p.x < 0 || p.x > w) p.vx *= -1;
+                    if (p.y < 0 || p.y > h) p.vy *= -1;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(240, 185, 11, ${p.alpha})`;
+                    ctx.fill();
+                });
+                // Draw connections
+                for (let i = 0; i < particles.length; i++) {
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const dx = particles[i].x - particles[j].x;
+                        const dy = particles[i].y - particles[j].y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.moveTo(particles[i].x, particles[i].y);
+                            ctx.lineTo(particles[j].x, particles[j].y);
+                            ctx.strokeStyle = `rgba(240, 185, 11, ${0.04 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(draw);
+            }
+
+            init();
+            draw();
+            window.addEventListener('resize', init);
+        })();
+
+        // ---- Market table data ----
+        (function() {
+            const coins = [
+                { symbol:'DRC', name:'DailyRemit', price:1.2450, change:5.62, volume:'124.5M', color:'#f0b90b', icon:'DR' },
+                { symbol:'BTC', name:'Bitcoin', price:67245.80, change:2.34, volume:'892.1M', color:'#f7931a', icon:'₿' },
+                { symbol:'ETH', name:'Ethereum', price:3421.50, change:1.87, volume:'456.3M', color:'#627eea', icon:'Ξ' },
+                { symbol:'SOL', name:'Solana', price:172.90, change:3.21, volume:'234.7M', color:'#9945ff', icon:'S' },
+                { symbol:'BNB', name:'BNB', price:584.30, change:-0.45, volume:'178.9M', color:'#f0b90b', icon:'B' },
+                { symbol:'XRP', name:'XRP', price:0.6234, change:-1.12, volume:'98.4M', color:'#00aae4', icon:'X' },
+            ];
+
+            const container = document.getElementById('marketRows');
+            coins.forEach(c => {
+                const isUp = c.change >= 0;
+                const changeColor = isUp ? 'text-accent-green' : 'text-red-400';
+                const changeIcon = isUp ? 'fa-caret-up' : 'fa-caret-down';
+                const row = document.createElement('div');
+                row.className = 'grid grid-cols-12 gap-4 px-6 py-4 items-center hover:bg-white/[0.02] transition-colors cursor-pointer';
+                row.innerHTML = `
+                    <div class="col-span-4 sm:col-span-3 flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold flex-shrink-0" style="background:${c.color}22;color:${c.color};border:1px solid ${c.color}33;">${c.icon}</div>
+                        <div>
+                            <div class="text-sm font-semibold text-white">${c.symbol}<span class="text-gray-500 font-normal">/USDT</span></div>
+                            <div class="text-xs text-gray-500 hidden sm:block">${c.name}</div>
+                        </div>
+                    </div>
+                    <div class="col-span-3 sm:col-span-2 text-right text-sm font-medium text-white">$${c.price.toLocaleString('en-US', {minimumFractionDigits:2, maximumFractionDigits:c.price<1?4:2})}</div>
+                    <div class="col-span-2 sm:col-span-2 text-right hidden sm:block">
+                        <span class="${changeColor} text-sm font-medium"><i class="fas ${changeIcon} text-xs mr-0.5"></i>${Math.abs(c.change)}%</span>
+                    </div>
+                    <div class="col-span-2 hidden md:block text-right text-sm text-gray-400">$${c.volume}</div>
+                    <div class="col-span-2 text-right">
+                        <button class="px-3 py-1.5 rounded-lg text-xs font-medium text-gold-400 hover:bg-gold-400/10 transition-colors" style="border:1px solid rgba(240,185,11,0.15);">Trade</button>
+                    </div>
+                `;
+                container.appendChild(row);
+            });
+        })();
+
+        // ---- Scroll fade-in ----
+        (function() {
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+            document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+        })();
+
+        // ---- Navbar scroll effect ----
+        (function() {
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 50) {
+                    navbar.style.background = 'rgba(8,8,20,0.95)';
+                    navbar.style.borderBottomColor = 'rgba(240,185,11,0.1)';
+                } else {
+                    navbar.style.background = 'rgba(8,8,20,0.8)';
+                    navbar.style.borderBottomColor = 'rgba(240,185,11,0.06)';
+                }
+            });
+        })();
+
+        // ---- Mobile menu ----
+        (function() {
+            const menu = document.getElementById('mobileMenu');
+            const open = document.getElementById('mobileToggle');
+            const close = document.getElementById('mobileClose');
+
+            open.addEventListener('click', () => menu.classList.add('open'));
+            close.addEventListener('click', () => menu.classList.remove('open'));
+            menu.querySelectorAll('.mobile-nav-link').forEach(link => {
+                link.addEventListener('click', () => menu.classList.remove('open'));
+            });
+        })();
+
+        // ---- More dropdown ----
+        (function() {
+            const btn = document.getElementById('moreBtn');
+            const dropdown = document.getElementById('moreDropdown');
+            const arrow = document.getElementById('moreArrow');
+            let open = false;
+
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                open = !open;
+                if (open) {
+                    dropdown.classList.remove('opacity-0','invisible','translate-y-2');
+                    dropdown.classList.add('opacity-100','visible','translate-y-0');
+                    arrow.style.transform = 'rotate(180deg)';
+                } else {
+                    dropdown.classList.add('opacity-0','invisible','translate-y-2');
+                    dropdown.classList.remove('opacity-100','visible','translate-y-0');
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+
+            document.addEventListener('click', () => {
+                if (open) {
+                    open = false;
+                    dropdown.classList.add('opacity-0','invisible','translate-y-2');
+                    dropdown.classList.remove('opacity-100','visible','translate-y-0');
+                    arrow.style.transform = 'rotate(0deg)';
+                }
+            });
+        })();
+
+        // ---- Smooth scroll ----
+        document.querySelectorAll('a[href^="#"]').forEach(a => {
+            a.addEventListener('click', (e) => {
+                const target = document.querySelector(a.getAttribute('href'));
+                if (target) {
+                    e.preventDefault();
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+    </script>
 </body>
 </html>
