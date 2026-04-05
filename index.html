@@ -8,10 +8,7 @@
 <link rel="stylesheet" href="styles.css">
 <link rel="icon" href="assets/logo/drc_icon_128.png">
 
-<!-- Font -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-
-<!-- Ethers -->
 <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
 </head>
 
@@ -22,28 +19,57 @@
   <div class="nav-inner">
     <div class="logo-group">
       <img src="assets/logo/drc_icon_64.png" alt="DRC Logo">
-      <span class="nav-title">DRC</span>
+      <span class="nav-title">DailyRemit</span>
     </div>
+
     <nav class="nav-links">
       <a href="#features">Features</a>
-      <a href="#price-section">Live Price</a>
+      <a href="#price-section">Price</a>
       <a href="#chart">Chart</a>
+      <a href="#about">About</a>
     </nav>
-    <button id="connectWalletBtn">Connect Wallet</button>
+
+    <button id="connectWalletBtn" class="wallet-btn">Connect Wallet</button>
   </div>
 </header>
 
-<!-- HERO -->
+<!-- HERO (ETH STYLE) -->
 <section class="hero">
-  <h1>Daily Remit Coin</h1>
-  <p class="subtitle">Fast • Secure • Future‑Ready Crypto Ecosystem</p>
+  <div class="hero-overlay"></div>
 
-  <div class="hero-buttons">
-    <button onclick="buyDRC()">Buy DRC</button>
+  <div class="hero-content">
+    <img src="assets/logo/drc_icon_128.png" class="hero-coin" />
+
+    <h1>Welcome to DailyRemit</h1>
+    <p class="subtitle">Send and trade cryptocurrency with ease</p>
+
+    <div class="hero-buttons">
+      <button onclick="buyDRC()" class="primary">Get Started</button>
+      <button class="secondary">Learn More</button>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE CARDS (LIKE ETH) -->
+<section class="feature-cards">
+  <div class="card">
+    <h3>Trade Crypto</h3>
+    <p>Trade DRC with low fees instantly.</p>
   </div>
 
-  <div class="coin-container">
-    <div class="coin"></div>
+  <div class="card">
+    <h3>Remit Funds</h3>
+    <p>Send money globally in seconds.</p>
+  </div>
+
+  <div class="card">
+    <h3>Earn Rewards</h3>
+    <p>Stake tokens and earn passive income.</p>
+  </div>
+
+  <div class="card">
+    <h3>Secure Wallet</h3>
+    <p>Safe decentralized storage.</p>
   </div>
 </section>
 
@@ -53,7 +79,29 @@
   <p id="price" class="price-text"></p>
 </section>
 
-<!-- FEATURES -->
+<!-- ABOUT SECTION (NEW ETH STYLE) -->
+<section id="about" class="about">
+  <div class="about-left">
+    <h2>What is DailyRemit?</h2>
+    <p>
+      DailyRemit is a next-generation crypto platform allowing you to send,
+      trade, and earn digital assets securely across the globe.
+    </p>
+
+    <ul>
+      <li>✔ Trade Cryptocurrency</li>
+      <li>✔ Send Funds Globally</li>
+      <li>✔ Earn Passive Income</li>
+      <li>✔ Secure Wallet</li>
+    </ul>
+  </div>
+
+  <div class="about-right">
+    <img src="assets/logo/drc_icon_128.png" />
+  </div>
+</section>
+
+<!-- FEATURES GRID -->
 <section id="features" class="features">
   <h2>Key Features</h2>
   <div class="grid">
@@ -66,14 +114,10 @@
   </div>
 </section>
 
-<!-- LIVE CHART -->
+<!-- CHART -->
 <section id="chart" class="chart">
   <h2>Market Chart</h2>
-  <iframe 
-    src="https://www.geckoterminal.com/bsc/pools"
-    width="100%" 
-    height="400">
-  </iframe>
+  <iframe src="https://www.geckoterminal.com/bsc/pools" width="100%" height="400"></iframe>
 </section>
 
 <!-- FOOTER -->
