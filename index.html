@@ -3,128 +3,152 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daily Remit Coin (DRC)</title>
-
-<link rel="stylesheet" href="styles.css">
-<link rel="icon" href="assets/logo/drc_icon_128.png">
+<title>DailyRemit</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-</head>
 
+<style>
+body {
+  margin:0;
+  font-family:'Inter',sans-serif;
+  background:#020617;
+  color:white;
+}
+
+/* NAV */
+.nav {
+  display:flex;
+  justify-content:space-between;
+  padding:20px 40px;
+  position:fixed;
+  width:100%;
+  background:rgba(0,0,0,0.6);
+  backdrop-filter:blur(10px);
+}
+
+.nav a {color:#aaa;margin:0 10px;text-decoration:none;}
+
+/* HERO */
+.hero {
+  height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  background:url('https://images.unsplash.com/photo-1639762681057-408e52192e55') center/cover;
+  position:relative;
+}
+
+.hero::after {
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,0.7);
+}
+
+.hero-content {
+  position:relative;
+  z-index:2;
+}
+
+.hero img {
+  width:180px;
+  animation:float 4s infinite;
+}
+
+@keyframes float {
+  0%,100%{transform:translateY(0);} 
+  50%{transform:translateY(-15px);} 
+}
+
+.hero h1 {font-size:3rem;}
+.hero p {color:#ccc;}
+
+.btn {
+  padding:12px 25px;
+  border:none;
+  border-radius:8px;
+  margin:10px;
+  cursor:pointer;
+}
+
+.primary {background:gold;color:black;}
+.secondary {background:transparent;border:1px solid gold;color:white;}
+
+/* CARDS */
+.cards {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  padding:40px;
+  margin-top:-80px;
+}
+
+.card {
+  background:rgba(255,255,255,0.05);
+  padding:20px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.1);
+}
+
+/* ABOUT */
+.about {
+  display:flex;
+  flex-wrap:wrap;
+  padding:80px 40px;
+  gap:40px;
+}
+
+.about img {width:300px;}
+
+/* FOOTER */
+footer {
+  text-align:center;
+  padding:30px;
+  color:#777;
+}
+</style>
+
+</head>
 <body>
 
-<!-- NAVBAR -->
-<header class="nav-container">
-  <div class="nav-inner">
-    <div class="logo-group">
-      <img src="assets/logo/drc_icon_64.png" alt="DRC Logo">
-      <span class="nav-title">DailyRemit</span>
-    </div>
-
-    <nav class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#price-section">Price</a>
-      <a href="#chart">Chart</a>
-      <a href="#about">About</a>
-    </nav>
-
-    <button id="connectWalletBtn" class="wallet-btn">Connect Wallet</button>
+<div class="nav">
+  <div>DRC</div>
+  <div>
+    <a href="#">Market</a>
+    <a href="#">Wallet</a>
+    <a href="#">Docs</a>
   </div>
-</header>
+</div>
 
-<!-- HERO (ETH STYLE) -->
 <section class="hero">
-  <div class="hero-overlay"></div>
-
   <div class="hero-content">
-    <img src="assets/logo/drc_icon_128.png" class="hero-coin" />
-
+    <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png">
     <h1>Welcome to DailyRemit</h1>
-    <p class="subtitle">Send and trade cryptocurrency with ease</p>
-
-    <div class="hero-buttons">
-      <button onclick="buyDRC()" class="primary">Get Started</button>
-      <button class="secondary">Learn More</button>
-    </div>
+    <p>Send and trade cryptocurrency with ease</p>
+    <button class="btn primary">Get Started</button>
+    <button class="btn secondary">Learn More</button>
   </div>
 </section>
 
-<!-- FEATURE CARDS (LIKE ETH) -->
-<section class="feature-cards">
-  <div class="card">
-    <h3>Trade Crypto</h3>
-    <p>Trade DRC with low fees instantly.</p>
-  </div>
-
-  <div class="card">
-    <h3>Remit Funds</h3>
-    <p>Send money globally in seconds.</p>
-  </div>
-
-  <div class="card">
-    <h3>Earn Rewards</h3>
-    <p>Stake tokens and earn passive income.</p>
-  </div>
-
-  <div class="card">
-    <h3>Secure Wallet</h3>
-    <p>Safe decentralized storage.</p>
-  </div>
+<section class="cards">
+  <div class="card">Trade Crypto</div>
+  <div class="card">Remit Funds</div>
+  <div class="card">Earn Rewards</div>
+  <div class="card">Secure Wallet</div>
 </section>
 
-<!-- LIVE PRICE -->
-<section id="price-section" class="price-section">
-  <h2>Live BNB Price</h2>
-  <p id="price" class="price-text"></p>
-</section>
-
-<!-- ABOUT SECTION (NEW ETH STYLE) -->
-<section id="about" class="about">
-  <div class="about-left">
+<section class="about">
+  <div>
     <h2>What is DailyRemit?</h2>
-    <p>
-      DailyRemit is a next-generation crypto platform allowing you to send,
-      trade, and earn digital assets securely across the globe.
-    </p>
-
-    <ul>
-      <li>✔ Trade Cryptocurrency</li>
-      <li>✔ Send Funds Globally</li>
-      <li>✔ Earn Passive Income</li>
-      <li>✔ Secure Wallet</li>
-    </ul>
+    <p>Modern crypto platform for trading and remittance.</p>
   </div>
-
-  <div class="about-right">
-    <img src="assets/logo/drc_icon_128.png" />
-  </div>
+  <img src="https://cdn-icons-png.flaticon.com/512/825/825454.png">
 </section>
 
-<!-- FEATURES GRID -->
-<section id="features" class="features">
-  <h2>Key Features</h2>
-  <div class="grid">
-    <div class="card">🔥 Deflationary Supply</div>
-    <div class="card">💰 Staking Rewards</div>
-    <div class="card">🌐 Cross‑Chain Ready</div>
-    <div class="card">🔐 Secure & Audited</div>
-    <div class="card">🎨 NFT & DeFi Suite</div>
-    <div class="card">🏛️ Governance DAO</div>
-  </div>
-</section>
-
-<!-- CHART -->
-<section id="chart" class="chart">
-  <h2>Market Chart</h2>
-  <iframe src="https://www.geckoterminal.com/bsc/pools" width="100%" height="400"></iframe>
-</section>
-
-<!-- FOOTER -->
 <footer>
-  <p>© 2026 Daily Remit Coin</p>
+  <p>© 2026 DailyRemit</p>
 </footer>
 
-<script src="script.js"></script>
 </body>
 </html>
