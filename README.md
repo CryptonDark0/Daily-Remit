@@ -10,7 +10,7 @@
 
 <p align="center">
   <a href="https://dailyremit.com">🌍 Website</a> •
-  <a href="docs/DRC_Whitepaper_v1.pdf">📄 Whitepaper</a> •
+  <a href="docs/DRC whitepaper v1.pdf">📄 Whitepaper</a> •
   <a href="#-social-media">📢 Socials</a>
 </p>
 
