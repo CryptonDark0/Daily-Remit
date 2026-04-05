@@ -9,18 +9,17 @@
 </p>
 
 <p align="center">
-  <a href="https://dailyremit.com">Website</a> •
-  <a href="docs/DRC_Whitepaper.pdf">Whitepaper</a> •
-  <a href="#">Twitter</a> •
-  <a href="#">Telegram</a> •
-  <a href="#">Discord</a>
+  <a href="https://dailyremit.com">🌍 Website</a> •
+  <a href="docs/DRC_Whitepaper.pdf">📄 Whitepaper</a> •
+  <a href="#-social-media">📢 Socials</a>
 </p>
 
 ---
 
 ## 🚀 Overview
 
-**Daily Remit Coin (DRC)** is a next-generation digital asset designed to power **fast, low-cost, and secure global transactions**. Built on blockchain technology, DRC aims to eliminate inefficiencies in traditional remittance systems while expanding into a scalable ecosystem of:
+**Daily Remit Coin (DRC)** is a next-generation digital asset designed to enable **fast, low-cost, and secure global transactions**.  
+It eliminates inefficiencies in traditional remittance systems while expanding into a scalable blockchain ecosystem including:
 
 - DeFi  
 - NFTs  
@@ -33,15 +32,14 @@
 ## ⚡ Problem & Solution
 
 ### ❌ Problem
-Traditional remittance systems are:
-- Expensive  
-- Slow (multi-day settlement)  
-- Limited in accessibility  
+- High remittance fees  
+- Slow settlement times  
+- Limited global accessibility  
 
 ### ✅ Solution
 DRC will provide:
-- Near-instant global transactions  
-- Low transaction fees  
+- Near-instant global transfers  
+- Low-cost transactions  
 - Decentralized financial access  
 - Borderless payments  
 
@@ -52,13 +50,13 @@ DRC will provide:
 - 🔥 Deflationary Burn Mechanism  
 - 💰 Staking Rewards  
 - 📉 Supply Reduction Model  
-- ⚖️ Balanced Ecosystem Growth  
+- ⚖️ Sustainable Ecosystem Growth  
 - 🌐 Multi-Chain Compatibility  
 - 🛡️ Secure Smart Contracts  
 - 🎨 NFT Ecosystem  
 - 🏛️ DAO Governance  
-- 📱 Mobile App Ecosystem  
-- 💳 Merchant Payment Integration  
+- 📱 Mobile App Integration  
+- 💳 Merchant Payments  
 
 ---
 
@@ -80,56 +78,53 @@ DRC will provide:
 
 ## 🧩 Ecosystem & Use Cases
 
-- 💸 Global Payments & Remittance  
+- 💸 Payments & Remittance  
 - 🖼️ NFT Marketplace  
 - 📊 DeFi (Staking, Yield Farming, Lending)  
 - 👛 Wallet Integration  
 - 🏛️ DAO Governance  
-- 🔗 Cross-Chain Compatibility  
+- 🔗 Cross-chain Compatibility  
 - 🎮 Play-to-Earn Gaming  
 - 💳 E-Commerce Payments  
 - 🌍 Financial Inclusion  
-- 📱 Mobile App Platform  
+- 📱 Mobile App Ecosystem  
 
 ---
 
 ## 🛠️ Technical Architecture
 
-- Blockchain: **BNB Smart Chain (initial deployment)**  
+- Blockchain: **BNB Smart Chain (initial)**  
 - Smart Contracts: Solidity  
-- Future Plan: **Transition to native DRC blockchain**  
-- Security: Audited & scalable architecture  
+- Future: **Own DRC Blockchain**  
+- Security: Scalable & secure architecture  
 
 ---
 
 ## 🗺️ Roadmap (2026–2035)
 
 ### 📍 Phase 1: Foundation (2026)
-- Launch on BNB Smart Chain  
+- Launch on BSC  
 - Website & branding  
-- Liquidity provisioning  
-- Community building  
-- DEX listing  
+- Liquidity & DEX listing  
+- Community growth  
 
 ### 📍 Phase 2: Growth (2027)
 - Staking platform  
 - NFT marketplace  
 - Partnerships  
-- Marketing expansion  
 
 ### 📍 Phase 3: Expansion (2028–2029)
-- Native wallet  
+- Wallet development  
 - DeFi integrations  
-- Cross-chain support  
-- P2E gaming  
+- Cross-chain  
 
 ### 📍 Phase 4: Maturity (2030–2032)
 - DAO governance  
 - Mobile apps  
-- Enterprise solutions  
+- Enterprise use  
 
 ### 📍 Phase 5: Future Vision (2033–2035)
-- Proprietary blockchain  
+- Native blockchain  
 - Global adoption  
 - Institutional partnerships  
 
@@ -139,7 +134,7 @@ DRC will provide:
 
 - 📈 Exchange Listings (DEX → CEX)  
 - 🤝 Strategic Partnerships  
-- 📣 Influencer & Marketing Campaigns  
+- 📣 Influencer Campaigns  
 - 🚀 Ecosystem Expansion  
 - 🌐 Global Community Growth  
 
@@ -147,27 +142,45 @@ DRC will provide:
 
 ## 📄 Whitepaper
 
-📥 Download the full whitepaper:  
-👉 [DRC Whitepaper](docs/DRC_Whitepaper.pdf)
+👉 [Download Whitepaper](docs/DRC_Whitepaper.pdf)
 
 ---
 
-## 🔗 Links
+## 📊 Market Listings (Coming Soon)
+
+- 🟢 CoinMarketCap (CMC): *Pending Listing*  
+- 🟢 CoinGecko: *Pending Listing*  
+- 🟡 PancakeSwap: *After Liquidity*  
+- 🔵 Uniswap: *Future Expansion*  
+
+---
+
+## 📢 Social Media
 
 - 🌐 Website: https://dailyremit.com  
-- 📄 Whitepaper: docs/DRC_Whitepaper.pdf  
-- 🐦 Twitter: (Add link)  
-- 💬 Telegram: (Add link)  
-- 💻 GitHub: https://github.com/CryptonDark0/Daily-Remit  
+- 🐦 Twitter (X): https://twitter.com/YOUR_HANDLE  
+- 💬 Telegram: https://t.me/YOUR_GROUP  
+- 💬 Discord: https://discord.gg/YOUR_LINK  
+- 📘 Facebook: https://facebook.com/YOUR_PAGE  
+- 📸 Instagram: https://instagram.com/YOUR_HANDLE  
+- 📰 Medium: https://medium.com/@YOUR_HANDLE  
+- ▶️ YouTube: https://youtube.com/YOUR_CHANNEL  
+
+---
+
+## 🔗 Blockchain & Explorer
+
+- 🔍 BSCScan: https://bscscan.com/address/0x6eBbc9CDBb7b3fc16e117f121eC55a16f5B645fF  
+- 💼 Contract Address: `0x6eBbc9CDBb7b3fc16e117f121eC55a16f5B645fF`  
 
 ---
 
 ## ⚠️ Disclaimer
 
-DRC is currently under development. Features, roadmap, and tokenomics are subject to change based on market conditions and technological advancements.
+DRC is under active development. Features, roadmap, and tokenomics may evolve based on market conditions and technological advancements.
 
 ---
 
 ## © License
 
-This project is licensed under the MIT License.
+MIT License
