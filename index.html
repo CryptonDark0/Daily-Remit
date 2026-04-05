@@ -1,67 +1,109 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daily Remit Coin (DRC)</title>
-    <link rel="stylesheet" href="styles.css">
-    <!-- Ethers.js -->
-    <script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
-    <!-- Web3Modal + Wallet providers -->
-    <script src="https://unpkg.com/web3modal"></script>
-    <script src="https://unpkg.com/@walletconnect/web3-provider"></script>
-    <script src="https://unpkg.com/coinbase-wallet-sdk/dist/CoinbaseWalletSDK.min.js"></script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Daily Remit Coin (DRC)</title>
+
+<link rel="stylesheet" href="styles.css">
+<link rel="icon" href="assets/logo/drc_icon_128.png">
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;500;700&display=swap" rel="stylesheet">
+
+<!-- Ethers -->
+<script src="https://cdn.jsdelivr.net/npm/ethers/dist/ethers.min.js"></script>
+
 </head>
+
 <body>
-    <!-- Header -->
-    <header>
-        <img src="assets/logo/drc_icon_256.png" alt="DRC Logo" class="logo">
-        <h1>Daily Remit Coin (DRC)</h1>
+
+<!-- NAVBAR -->
+<header>
+    <div class="nav">
+        <img src="assets/logo/drc_icon_64.png" class="logo">
+        <h2>DRC</h2>
+
+        <nav>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#roadmap">Roadmap</a>
+            <a href="#tokenomics">Tokenomics</a>
+        </nav>
+
         <button id="connectWalletBtn">Connect Wallet</button>
-    </header>
+    </div>
+</header>
 
-    <!-- Buy Section -->
-    <section id="buy-section">
-        <h2>Buy DRC</h2>
-        <input type="number" id="buyAmount" placeholder="Amount in BNB">
+<!-- HERO -->
+<section class="hero">
+    <h1>Daily Remit Coin</h1>
+    <p>Future-Proof Global Payments & DeFi Ecosystem</p>
+
+    <div class="buy-box">
+        <input type="number" id="amount" placeholder="Amount (BNB)">
         <button id="buyBtn">Buy DRC</button>
-    </section>
+    </div>
+</section>
 
-    <!-- Tokenomics -->
-    <section id="tokenomics">
-        <h2>Tokenomics</h2>
-        <table>
-            <tr><th>Total Supply</th><td>1,000,000,000 DRC</td></tr>
-            <tr><th>Decimals</th><td>18</td></tr>
-            <tr><th>Network</th><td>BNB Smart Chain</td></tr>
-            <tr><th>Transaction Fees</th><td>1% Marketing | 1% Development | 1% Liquidity | 1% Burn</td></tr>
-        </table>
-    </section>
+<!-- ABOUT -->
+<section id="about">
+    <h2>About</h2>
+    <p>
+    DRC is a next-generation cryptocurrency designed for fast, low-cost global remittances.
+    Built on blockchain, it enables DeFi, NFTs, staking, governance, and cross-chain scalability.
+    </p>
+</section>
 
-    <!-- Roadmap -->
-    <section id="roadmap">
-        <h2>Roadmap (2026–2035)</h2>
+<!-- FEATURES -->
+<section id="features">
+    <h2>Key Features</h2>
+
+    <div class="grid">
+        <div class="card">🔥 Deflationary Burn</div>
+        <div class="card">💰 Staking Rewards</div>
+        <div class="card">🌐 Multi-Chain Ready</div>
+        <div class="card">🛡️ Secure Smart Contracts</div>
+        <div class="card">🎨 NFT Ecosystem</div>
+        <div class="card">🏛️ DAO Governance</div>
+    </div>
+</section>
+
+<!-- TOKENOMICS -->
+<section id="tokenomics">
+    <h2>Tokenomics</h2>
+
+    <div class="token-box">
+        <p>Total Supply: 1,000,000,000 DRC</p>
+        <p>Decimals: 18</p>
+        <p>Network: BNB Smart Chain</p>
+
         <ul>
-            <li><strong>2026:</strong> Launch, Website, Initial Liquidity, Community</li>
-            <li><strong>2027:</strong> Staking & NFT ecosystem</li>
-            <li><strong>2028–2029:</strong> DeFi integration, Wallet & P2E Gaming</li>
-            <li><strong>2030–2032:</strong> DAO Governance, Mobile App</li>
-            <li><strong>2033–2035:</strong> Native DRC Blockchain, Enterprise Adoption</li>
+            <li>1% Marketing</li>
+            <li>1% Development</li>
+            <li>1% Liquidity</li>
+            <li>1% Burn</li>
         </ul>
-    </section>
+    </div>
+</section>
 
-    <!-- Whitepaper -->
-    <section id="whitepaper">
-        <h2>Whitepaper</h2>
-        <a href="docs/DRC_Whitepaper_Premium.pdf" target="_blank">Download Whitepaper (PDF)</a>
-    </section>
+<!-- ROADMAP -->
+<section id="roadmap">
+    <h2>Roadmap</h2>
 
-    <!-- Footer -->
-    <footer>
-        <p>© 2026 Daily Remit Coin. All rights reserved.</p>
-    </footer>
+    <div class="timeline">
+        <div>2026 - Launch</div>
+        <div>2027 - Staking & NFT</div>
+        <div>2028-29 - Expansion</div>
+        <div>2030+ - DAO & Apps</div>
+    </div>
+</section>
 
-    <!-- Scripts -->
-    <script src="script.js"></script>
+<!-- FOOTER -->
+<footer>
+    <p>© 2026 Daily Remit Coin</p>
+</footer>
+
+<script src="script.js"></script>
 </body>
 </html>
