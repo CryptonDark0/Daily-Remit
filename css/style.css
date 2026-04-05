@@ -1,85 +1,135 @@
 body {
-margin: 0;
-font-family: 'Inter', sans-serif;
-background: #0b0f19;
-color: white;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background: #0b0f19;
+  color: white;
 }
 
 .nav {
-display: flex;
-justify-content: space-between;
-padding: 20px;
-align-items: center;
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  align-items: center;
 }
 
 .nav img {
-width: 40px;
+  width: 40px;
 }
 
 nav a {
-margin: 0 10px;
-color: #aaa;
+  margin: 0 10px;
+  color: #aaa;
+  text-decoration: none;
 }
 
 nav a:hover {
-color: white;
+  color: white;
 }
 
 button {
-background: linear-gradient(45deg,#00c6ff,#0072ff);
-border: none;
-padding: 10px 20px;
-color: white;
-border-radius: 6px;
-cursor: pointer;
+  background: linear-gradient(45deg,#00c6ff,#0072ff);
+  border: none;
+  padding: 10px 20px;
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
 }
 
 .hero {
-text-align: center;
-padding: 100px 20px;
+  text-align: center;
+  padding: 100px 20px;
 }
 
 .hero h1 {
-font-size: 3rem;
+  font-size: 3rem;
+}
+
+/* === COIN STYLES === */
+.coin-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 40px;
+  perspective: 1000px;
+}
+
+.coin {
+  width: 180px;
+  height: 180px;
+  background: url('/graphics/spinning_coin.png') no-repeat center/contain;
+  animation: spinY 4s linear infinite, float 3s ease-in-out infinite;
+  transform-style: preserve-3d;
+  transition: all 0.3s ease;
+}
+
+/* Spin animation */
+@keyframes spinY {
+  0% { transform: rotateY(0deg); }
+  100% { transform: rotateY(360deg); }
+}
+
+/* Floating effect */
+@keyframes float {
+  0%   { transform: translateY(0px) rotateY(0deg); }
+  50%  { transform: translateY(-15px) rotateY(180deg); }
+  100% { transform: translateY(0px) rotateY(360deg); }
+}
+
+/* Hover effect */
+.coin:hover {
+  animation-duration: 1s;
+  filter: drop-shadow(0 0 15px #00c6ff);
+  cursor: pointer;
+}
+
+/* Click burst */
+.coin:active {
+  animation: spinBurst 0.6s ease;
+}
+
+@keyframes spinBurst {
+  0%   { transform: rotateY(0deg) scale(1); }
+  50%  { transform: rotateY(180deg) scale(1.2); }
+  100% { transform: rotateY(360deg) scale(1); }
 }
 
 .buy-box input {
-padding: 10px;
-border-radius: 5px;
-border: none;
+  padding: 10px;
+  border-radius: 5px;
+  border: none;
 }
 
 section {
-padding: 60px;
-text-align: center;
+  padding: 60px;
+  text-align: center;
 }
 
 .grid {
-display: grid;
-grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
-gap: 20px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  gap: 20px;
 }
 
 .card {
-background: rgba(255,255,255,0.05);
-padding: 20px;
-border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .token-box {
-background: rgba(255,255,255,0.05);
-padding: 20px;
-border-radius: 10px;
+  background: rgba(255,255,255,0.05);
+  padding: 20px;
+  border-radius: 10px;
 }
 
 .timeline div {
-border-left: 3px solid #00c6ff;
-margin: 10px;
-padding: 10px;
+  border-left: 3px solid #00c6ff;
+  margin: 10px;
+  padding: 10px;
 }
 
 footer {
-text-align: center;
-padding: 20px;
-color: #777;
+  text-align: center;
+  padding: 20px;
+  color: #777;
 }
