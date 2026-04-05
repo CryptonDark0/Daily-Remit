@@ -4,7 +4,7 @@ document.getElementById("connectWalletBtn").onclick = async () => {
     await window.ethereum.request({ method: "eth_requestAccounts" });
     alert("Wallet Connected");
   } else {
-    alert("Install MetaMask");
+    alert("Please install MetaMask");
   }
 };
 
@@ -15,13 +15,13 @@ async function checkNetwork() {
     const network = await provider.getNetwork();
 
     if (network.chainId !== 56) {
-      alert("Switch to BNB Smart Chain");
+      console.log("Switch to BNB Smart Chain");
     }
   }
 }
 checkNetwork();
 
-// BUY (PancakeSwap)
+// BUY FUNCTION
 function buyDRC() {
   const tokenAddress = "0x6eBbc9CDBb7b3fc16e117f121eC55a16f5B645fF";
   window.open(
