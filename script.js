@@ -23,7 +23,7 @@ checkNetwork();
 
 // BUY (PancakeSwap)
 function buyDRC() {
-  const tokenAddress = "YOUR_TOKEN_ADDRESS";
+  const tokenAddress = "0x6eBbc9CDBb7b3fc16e117f121eC55a16f5B645fF";
   window.open(
     `https://pancakeswap.finance/swap?outputCurrency=${tokenAddress}`,
     "_blank"
