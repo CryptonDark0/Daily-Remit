@@ -17,13 +17,14 @@
 
 <header>
   <div class="nav">
-    <img src="assets/logo/drc_icon_64.png">
-    <h2>DRC</h2>
+    <div class="nav-left">
+      <img src="assets/logo/drc_icon_64.png">
+      <h2>DRC</h2>
+    </div>
 
     <nav>
-      <a href="#about">About</a>
       <a href="#features">Features</a>
-      <a href="#tokenomics">Tokenomics</a>
+      <a href="#chart">Chart</a>
     </nav>
 
     <button id="connectWalletBtn">Connect Wallet</button>
@@ -32,18 +33,15 @@
 
 <section class="hero">
   <h1>Daily Remit Coin</h1>
-  <p>Future-Proof Global Payments & DeFi Ecosystem</p>
+  <p>Fast • Secure • Global Payments</p>
 
-  <!-- COIN -->
   <div class="coin-container">
     <div class="coin"></div>
   </div>
 
-  <!-- PRICE -->
   <p id="price">Loading price...</p>
 
-  <!-- BUY -->
-  <div class="buy-box">
+  <div class="actions">
     <button onclick="buyDRC()">Buy on PancakeSwap</button>
   </div>
 </section>
@@ -58,15 +56,17 @@
   </div>
 </section>
 
-<!-- CHART -->
-<section>
+<section id="chart">
   <h2>Live Chart</h2>
-  <iframe src="https://www.geckoterminal.com/bsc/pools"
-    width="100%" height="400"></iframe>
+  <iframe 
+    src="https://www.geckoterminal.com/bsc/pools"
+    width="100%" 
+    height="400">
+  </iframe>
 </section>
 
 <footer>
-  <p>© 2026 DRC</p>
+  <p>© 2026 Daily Remit Coin</p>
 </footer>
 
 <script src="script.js"></script>
