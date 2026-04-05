@@ -5,17 +5,36 @@ body {
   color: white;
 }
 
+/* Glow background */
+body::before {
+  content: "";
+  position: fixed;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(0,198,255,0.08), transparent);
+  top: -150px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: -1;
+}
+
 /* NAV */
 .nav {
   display: flex;
   justify-content: space-between;
-  padding: 20px;
   align-items: center;
+  padding: 15px 30px;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 nav a {
   margin: 0 10px;
-  color: #aaa;
+  color: #9ca3af;
   text-decoration: none;
 }
 
@@ -27,26 +46,26 @@ nav a:hover {
 .hero {
   text-align: center;
   padding: 120px 20px;
-  background: radial-gradient(circle at top, #111827, #0b0f19);
 }
 
 .hero h1 {
-  font-size: 3.5rem;
-  background: linear-gradient(90deg,#00c6ff,#0072ff);
-  -webkit-background-clip: text;
-  color: transparent;
+  font-size: 3rem;
+}
+
+.hero p {
+  color: #9ca3af;
 }
 
 /* COIN */
 .coin-container {
-  margin: 40px 0;
+  margin: 30px 0;
 }
 
 .coin {
-  width: 120px;
-  height: 120px;
+  width: 80px;
+  height: 80px;
   background: url('graphics/spinning_coin.png') no-repeat center/contain;
-  animation: spin 6s linear infinite;
+  animation: spin 10s linear infinite;
 }
 
 @keyframes spin {
@@ -55,17 +74,21 @@ nav a:hover {
 }
 
 .coin:hover {
-  animation-duration: 2s;
+  animation-duration: 4s;
 }
 
 /* BUTTON */
 button {
-  background: linear-gradient(45deg,#00c6ff,#0072ff);
-  border: none;
-  padding: 12px 25px;
+  background: #1f2937;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 10px 20px;
   color: white;
-  border-radius: 6px;
+  border-radius: 8px;
   cursor: pointer;
+}
+
+button:hover {
+  border-color: #00c6ff;
 }
 
 /* GRID */
@@ -77,16 +100,20 @@ button {
 }
 
 .card {
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.03);
   padding: 20px;
   border-radius: 10px;
-  backdrop-filter: blur(10px);
-  transition: 0.3s;
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .card:hover {
-  transform: translateY(-10px);
-  box-shadow: 0 0 20px rgba(0,198,255,0.3);
+  transform: translateY(-5px);
+}
+
+/* CHART */
+iframe {
+  border: none;
+  border-radius: 10px;
 }
 
 /* FOOTER */
