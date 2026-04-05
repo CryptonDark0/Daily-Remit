@@ -1,41 +1,49 @@
-const connectBtn = document.getElementById("connectWalletBtn");
-const buyBtn = document.getElementById("buyBtn");
-
-let provider, signer;
-
-async function connectWallet() {
-    if (!window.ethereum) return alert("Install MetaMask");
-
+// CONNECT WALLET
+document.getElementById("connectWalletBtn").onclick = async () => {
+  if (window.ethereum) {
     await window.ethereum.request({ method: "eth_requestAccounts" });
+    alert("Wallet Connected");
+  } else {
+    alert("Install MetaMask");
+  }
+};
 
-    provider = new ethers.providers.Web3Provider(window.ethereum);
-    signer = provider.getSigner();
+// NETWORK CHECK
+async function checkNetwork() {
+  if (window.ethereum) {
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+    const network = await provider.getNetwork();
 
-    const address = await signer.getAddress();
-    connectBtn.innerText = address.slice(0,6) + "...";
-}
-
-async function buyDRC() {
-    const amount = document.getElementById("amount").value;
-
-    if (!amount) return alert("Enter amount");
-
-    const contractAddress = "0x6eBbc9CDBb7b3fc16e117f121eC55a16f5B645fF";
-    const abi = ["function buy() payable"];
-
-    const contract = new ethers.Contract(contractAddress, abi, signer);
-
-    try {
-        const tx = await contract.buy({
-            value: ethers.utils.parseEther(amount)
-        });
-
-        await tx.wait();
-        alert("Purchase successful!");
-    } catch {
-        alert("Transaction failed");
+    if (network.chainId !== 56) {
+      alert("Switch to BNB Smart Chain");
     }
+  }
+}
+checkNetwork();
+
+// BUY (PancakeSwap)
+function buyDRC() {
+  const tokenAddress = "YOUR_TOKEN_ADDRESS";
+  window.open(
+    `https://pancakeswap.finance/swap?outputCurrency=${tokenAddress}`,
+    "_blank"
+  );
 }
 
-connectBtn.onclick = connectWallet;
-buyBtn.onclick = buyDRC;
+// LIVE PRICE (CoinGecko)
+async function loadPrice() {
+  try {
+    const res = await fetch(
+      "https://api.coingecko.com/api/v3/simple/price?ids=binancecoin&vs_currencies=usd"
+    );
+    const data = await res.json();
+
+    document.getElementById("price").innerText =
+      "BNB Price: $" + data.binancecoin.usd;
+  } catch {
+    document.getElementById("price").innerText = "Price unavailable";
+  }
+}
+
+loadPrice();
+setInterval(loadPrice, 10000);
