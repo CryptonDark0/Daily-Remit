@@ -2,19 +2,20 @@
 body {
   margin: 0;
   font-family: 'Inter', sans-serif;
-  background: #0b0f19;
+  background: radial-gradient(circle at top, #0f172a, #020617);
   color: white;
 }
 
 /* NAV */
 .nav-container {
   width: 100%;
-  padding: 20px 40px;
-  background: rgba(11,15,25,0.8);
-  backdrop-filter: blur(10px);
+  padding: 18px 40px;
+  background: rgba(2,6,23,0.7);
+  backdrop-filter: blur(12px);
   position: sticky;
   top: 0;
   z-index: 100;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
 }
 
 .nav-inner {
@@ -23,124 +24,185 @@ body {
   align-items: center;
 }
 
-.logo-group {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .nav-title {
   font-size: 1.4rem;
   font-weight: 700;
 }
 
 .nav-links a {
-  margin: 0 12px;
+  margin: 0 14px;
   text-decoration: none;
-  color: #aaa;
-  font-weight: 500;
+  color: #94a3b8;
+  transition: 0.3s;
 }
 
 .nav-links a:hover {
-  color: #00c6ff;
+  color: #38bdf8;
+}
+
+.wallet-btn {
+  background: linear-gradient(45deg,#6366f1,#22c55e);
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  color: white;
+  cursor: pointer;
 }
 
 /* HERO */
 .hero {
+  position: relative;
   text-align: center;
-  padding: 120px 20px;
-  background: linear-gradient(180deg, #111827, #0b0f19);
+  padding: 140px 20px 100px;
+  background: radial-gradient(circle at center, #1e293b, #020617);
+}
+
+.hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle, rgba(59,130,246,0.15), transparent 70%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+}
+
+.hero-coin {
+  width: 110px;
+  margin-bottom: 20px;
+  animation: float 4s ease-in-out infinite;
+}
+
+@keyframes float {
+  0%,100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
 }
 
 .hero h1 {
-  font-size: 3.2rem;
-  font-weight: 700;
-  margin-bottom: 8px;
+  font-size: 3.5rem;
+  margin-bottom: 10px;
 }
 
 .subtitle {
-  color: #9ca3af;
-  font-size: 1.1rem;
+  color: #94a3b8;
   margin-bottom: 25px;
 }
 
 .hero-buttons button {
-  background: linear-gradient(45deg,#00c6ff,#0072ff);
-  border: none;
-  padding: 12px 28px;
-  color: white;
-  font-size: 1rem;
-  border-radius: 8px;
+  padding: 12px 26px;
+  border-radius: 10px;
+  margin: 8px;
+  font-weight: 500;
   cursor: pointer;
-  margin-bottom: 30px;
 }
 
-/* SPINNING COIN */
-.coin-container {
+.primary {
+  background: linear-gradient(45deg,#6366f1,#22c55e);
+  border: none;
+}
+
+.secondary {
+  background: transparent;
+  border: 1px solid #6366f1;
+  color: white;
+}
+
+/* FEATURE CARDS (TOP ROW) */
+.feature-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
+  gap: 20px;
+  padding: 40px;
+  margin-top: -60px;
+}
+
+.card {
+  background: rgba(255,255,255,0.05);
+  border-radius: 16px;
+  padding: 20px;
+  border: 1px solid rgba(255,255,255,0.08);
+  backdrop-filter: blur(10px);
+  transition: 0.3s;
+}
+
+.card:hover {
+  transform: translateY(-8px);
+  border-color: #38bdf8;
+  box-shadow: 0 0 25px rgba(56,189,248,0.2);
+}
+
+/* ABOUT SECTION */
+.about {
   display: flex;
-  justify-content: center;
-  margin-top: 15px;
-}
-.coin {
-  width: 90px;
-  height: 90px;
-  background: url('graphics/spinning_coin.png') no-repeat center/contain;
-  animation: spin 8s linear infinite;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 80px 40px;
+  gap: 40px;
 }
 
-@keyframes spin {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
+.about-left {
+  flex: 1;
+}
+
+.about-left h2 {
+  font-size: 2.2rem;
+}
+
+.about-left ul {
+  margin-top: 20px;
+  line-height: 2;
+  color: #cbd5f5;
+}
+
+.about-right {
+  flex: 1;
+  text-align: center;
+}
+
+.about-right img {
+  width: 200px;
+  animation: float 5s infinite;
 }
 
 /* PRICE */
 .price-section {
   text-align: center;
-  padding: 40px 20px;
-}
-.price-text {
-  font-size: 1.5rem;
-  color: #00c6ff;
+  padding: 50px 20px;
 }
 
-/* FEATURES */
+.price-text {
+  font-size: 1.6rem;
+  color: #38bdf8;
+}
+
+/* FEATURES GRID */
 .features {
-  padding: 60px 20px;
+  padding: 80px 20px;
   text-align: center;
 }
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(200px,1fr));
+  grid-template-columns: repeat(auto-fit,minmax(220px,1fr));
   gap: 25px;
-  margin-top: 20px;
-}
-
-.card {
-  padding: 18px;
-  background: rgba(255,255,255,0.05);
-  border-radius: 12px;
-  border: 1px solid rgba(255,255,255,0.08);
-  font-size: 1rem;
-  transition: 0.3s;
-}
-.card:hover {
-  transform: translateY(-6px);
-  border-color: #00c6ff;
+  margin-top: 30px;
 }
 
 /* CHART */
 .chart {
-  padding: 50px 20px;
+  padding: 60px 20px;
 }
+
 iframe {
   border: none;
-  border-radius: 12px;
+  border-radius: 16px;
 }
 
 /* FOOTER */
 footer {
   text-align: center;
-  padding: 20px;
-  color: #777;
+  padding: 30px;
+  color: #64748b;
+  border-top: 1px solid rgba(255,255,255,0.05);
 }
