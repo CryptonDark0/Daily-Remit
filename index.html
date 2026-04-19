@@ -8,6 +8,11 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/6.13.4/ethers.umd.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="icon" type="image/png" sizes="32x32" href="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/drc_icon_200.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/drc_icon_200.png">
+    <meta property="og:title" content="Daily Remit Coin (DRC)">
+    <meta property="og:description" content="Future-proof multi-use cryptocurrency for borderless finance.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/drc_icon_200.png">
     <script>
         tailwind.config = {
             theme: {
@@ -95,6 +100,8 @@
         .social-btn.gh:hover{background:rgba(255,255,255,0.05);color:#fff}
         .trust-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:10px;font-size:12px;font-weight:600;transition:all 0.3s}
         .trust-badge:hover{transform:translateY(-2px)}
+        .live-skeleton{background:linear-gradient(90deg,rgba(240,185,11,0.06) 25%,rgba(240,185,11,0.12) 50%,rgba(240,185,11,0.06) 75%);background-size:200% 100%;animation:live-skel 1.5s infinite;border-radius:4px;height:18px;width:80px;display:inline-block}
+        @keyframes live-skel{to{background-position:-200% 0}}
     </style>
 </head>
 <body class="grid-bg">
@@ -278,6 +285,39 @@
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40"><span class="text-[10px] text-gray-500 tracking-widest uppercase">Scroll</span><div class="w-5 h-8 rounded-full border border-gray-600 flex justify-center pt-1.5"><div class="w-1 h-2 rounded-full bg-gray-500 animate-bounce"></div></div></div>
     </section>
 
+    <!-- ═══ LIVE MARKET DATA (API INTEGRATION) ═══ -->
+    <section class="relative py-6" style="z-index:1;border-top:1px solid rgba(240,185,11,0.06);border-bottom:1px solid rgba(240,185,11,0.06);background:rgba(5,5,16,0.7);">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6">
+            <div class="flex items-center justify-center gap-2 mb-4">
+                <span class="w-2 h-2 rounded-full bg-accent-green animate-pulse"></span>
+                <span class="text-[11px] font-semibold tracking-widest uppercase text-gold-400/60">Live Market Data</span>
+            </div>
+            <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 sm:gap-6">
+                <div class="text-center">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wider block mb-1">Price (USD)</span>
+                    <div id="live-price" class="font-display text-lg sm:text-xl font-bold text-white"><span class="live-skeleton"></span></div>
+                </div>
+                <div class="text-center">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wider block mb-1">Price (BNB)</span>
+                    <div id="live-price-bnb" class="font-display text-lg sm:text-xl font-bold text-white"><span class="live-skeleton"></span></div>
+                </div>
+                <div class="text-center">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wider block mb-1">Liquidity (USD)</span>
+                    <div id="live-liq" class="font-display text-lg sm:text-xl font-bold text-white"><span class="live-skeleton"></span></div>
+                </div>
+                <div class="text-center">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wider block mb-1">Holders</span>
+                    <div id="live-holders" class="font-display text-lg sm:text-xl font-bold text-white"><span class="live-skeleton"></span></div>
+                </div>
+                <div class="text-center col-span-2 sm:col-span-1">
+                    <span class="text-[10px] text-gray-500 uppercase tracking-wider block mb-1">24h Volume</span>
+                    <div id="live-vol" class="font-display text-lg sm:text-xl font-bold text-white"><span class="live-skeleton"></span></div>
+                </div>
+            </div>
+            <div class="text-center mt-3"><span class="text-[10px] text-gray-600">Updated: <span id="live-time">Loading...</span></span></div>
+        </div>
+    </section>
+
     <!-- ABOUT -->
     <section id="about" class="py-24 md:py-32 relative">
         <div class="max-w-7xl mx-auto px-6">
@@ -339,6 +379,7 @@
                 <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(59,130,246,0.02));border:1px solid rgba(59,130,246,0.1);"><i class="fas fa-tools text-xl text-accent-blue"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">DEXTools</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
                 <a href="https://www.coingecko.com/en/coins/daily-remit-coin" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(124,225,107,0.1),rgba(124,225,107,0.02));border:1px solid rgba(124,225,107,0.1);"><i class="fas fa-gecko text-xl" style="color:#7ce16b;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">CoinGecko</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
                 <a href="https://coinmarketcap.com/currencies/daily-remit-coin/" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(67,171,247,0.1),rgba(67,171,247,0.02));border:1px solid rgba(67,171,247,0.1);"><i class="fas fa-chart-line text-xl" style="color:#43abf7;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">CoinMarketCap</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
+                <a href="https://dex.coinmarketcap.com/token/bsc/0x316a5e1f7d3a52083185261965685c15ae284627/" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(67,171,247,0.1),rgba(67,171,247,0.02));border:1px solid rgba(67,171,247,0.1);"><i class="fas fa-chart-area text-xl" style="color:#43abf7;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">DEX CoinMarketCap</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
             </div>
             <div class="text-center fade-up"><button onclick="openModal('buyModal')" class="btn-outline px-6 py-3 rounded-xl text-sm font-medium text-gold-300 inline-flex items-center gap-2"><i class="fas fa-book-open text-sm"></i> Step-by-Step Guide</button></div>
         </div>
@@ -482,6 +523,101 @@
     const ERC20_ABI=['function balanceOf(address account) external view returns (uint256)','function decimals() external view returns (uint8)'];
     let ws={provider:null,signer:null,address:null,chainId:null,bnbBalance:0,drcBalance:0},slippage=1,qt=null;
     const WP_URL='https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/docs/DRC%20whitepaper%20v1.pdf';
+
+    /* ═══════════════════════════════════════════
+       LIVE MARKET DATA — API INTEGRATION
+       Replace YOUR_BSC_KEY with your BscScan API key
+       Price + Liquidity + Volume: DexScreener (no key needed)
+       Holders: BscScan API (key needed)
+    ═══════════════════════════════════════════ */
+    const LIVE_CFG = {
+        contract: DRC_ADDRESS,
+        bscKey: 'YOUR_BSC_KEY'
+    };
+
+    async function fetchLiveData() {
+        const elPrice = document.getElementById('live-price');
+        const elPriceBnb = document.getElementById('live-price-bnb');
+        const elLiq = document.getElementById('live-liq');
+        const elHolders = document.getElementById('live-holders');
+        const elVol = document.getElementById('live-vol');
+        const elTime = document.getElementById('live-time');
+
+        try {
+            // DexScreener — price, liquidity, volume (no API key needed)
+            const dexRes = await fetch('https://api.dexscreener.com/latest/dex/tokens/' + LIVE_CFG.contract);
+            const dexData = await dexRes.json();
+
+            if (dexData.pairs && dexData.pairs.length > 0) {
+                const p = dexData.pairs[0];
+                const priceUsd = parseFloat(p.priceUsd);
+                const priceBnb = parseFloat(p.priceNative);
+                const liq = parseFloat(p.liquidity?.usd || 0);
+                const vol24 = parseFloat(p.volume?.h24 || 0);
+
+                if (priceUsd > 0) {
+                    const ps = priceUsd < 0.001 ? priceUsd.toFixed(10) : priceUsd < 0.01 ? priceUsd.toFixed(8) : priceUsd.toFixed(6);
+                    elPrice.textContent = '$' + ps;
+                    elPrice.style.color = '#fff';
+                } else {
+                    elPrice.textContent = 'N/A';
+                    elPrice.style.color = '#6b7280';
+                }
+
+                if (priceBnb > 0) {
+                    elPriceBnb.textContent = priceBnb.toFixed(8);
+                    elPriceBnb.style.color = '#fff';
+                } else {
+                    elPriceBnb.textContent = 'N/A';
+                    elPriceBnb.style.color = '#6b7280';
+                }
+
+                elLiq.textContent = '$' + liq.toFixed(2);
+                elLiq.style.color = '#fff';
+                elVol.textContent = '$' + vol24.toFixed(2);
+                elVol.style.color = '#fff';
+            } else {
+                elPrice.textContent = 'N/A'; elPrice.style.color = '#6b7280';
+                elPriceBnb.textContent = 'N/A'; elPriceBnb.style.color = '#6b7280';
+                elLiq.textContent = 'N/A'; elLiq.style.color = '#6b7280';
+                elVol.textContent = 'N/A'; elVol.style.color = '#6b7280';
+            }
+
+            // BscScan — holder count (needs API key)
+            if (LIVE_CFG.bscKey !== 'YOUR_BSC_KEY') {
+                try {
+                    const hRes = await fetch('https://api.bscscan.com/api?module=token&action=tokenholderlist&contractaddress=' + LIVE_CFG.contract + '&page=1&offset=10000&apikey=' + LIVE_CFG.bscKey);
+                    const hData = await hRes.json();
+                    if (hData.status === '1') {
+                        elHolders.textContent = hData.result.length.toLocaleString();
+                        elHolders.style.color = '#fff';
+                    } else {
+                        elHolders.textContent = '--';
+                        elHolders.style.color = '#6b7280';
+                    }
+                } catch(e) {
+                    elHolders.textContent = '--';
+                    elHolders.style.color = '#6b7280';
+                }
+            } else {
+                elHolders.textContent = '--';
+                elHolders.style.color = '#6b7280';
+            }
+
+            elTime.textContent = new Date().toLocaleString();
+
+        } catch(err) {
+            console.error('Live data error:', err);
+            if (!elPrice.textContent.includes('$')) { elPrice.textContent = 'Error'; elPrice.style.color = '#ef4444'; }
+            if (!elLiq.textContent.includes('$')) { elLiq.textContent = 'Error'; elLiq.style.color = '#ef4444'; }
+            elTime.textContent = new Date().toLocaleString() + ' (partial)';
+        }
+    }
+
+    // Initial load + refresh every 60s
+    fetchLiveData();
+    setInterval(fetchLiveData, 60000);
+    /* ═══ END LIVE MARKET DATA ═══ */
 
     (function(){const c=document.getElementById('particles'),x=c.getContext('2d');let p=[],w,h;function resize(){w=c.width=c.parentElement.offsetWidth;h=c.height=c.parentElement.offsetHeight;}function init(){resize();p=[];const n=Math.min(50,Math.floor(w*h/25000));for(let i=0;i<n;i++)p.push({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-0.5)*0.25,vy:(Math.random()-0.5)*0.25,r:Math.random()*1.5+0.5,a:Math.random()*0.25+0.05});}function draw(){x.clearRect(0,0,w,h);p.forEach(q=>{q.x+=q.vx;q.y+=q.vy;if(q.x<0||q.x>w)q.vx*=-1;if(q.y<0||q.y>h)q.vy*=-1;x.beginPath();x.arc(q.x,q.y,q.r,0,Math.PI*2);x.fillStyle=`rgba(240,185,11,${q.a})`;x.fill();});for(let i=0;i<p.length;i++)for(let j=i+1;j<p.length;j++){const dx=p[i].x-p[j].x,dy=p[i].y-p[j].y,d=Math.sqrt(dx*dx+dy*dy);if(d<100){x.beginPath();x.moveTo(p[i].x,p[i].y);x.lineTo(p[j].x,p[j].y);x.strokeStyle=`rgba(240,185,11,${0.03*(1-d/100)})`;x.lineWidth=0.5;x.stroke();}}requestAnimationFrame(draw);}init();draw();window.addEventListener('resize',init);})();
 
