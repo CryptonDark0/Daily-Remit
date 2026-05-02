@@ -102,6 +102,49 @@
         .trust-badge:hover{transform:translateY(-2px)}
         .live-skeleton{background:linear-gradient(90deg,rgba(240,185,11,0.06) 25%,rgba(240,185,11,0.12) 50%,rgba(240,185,11,0.06) 75%);background-size:200% 100%;animation:live-skel 1.5s infinite;border-radius:4px;height:18px;width:80px;display:inline-block}
         @keyframes live-skel{to{background-position:-200% 0}}
+
+        /* ═══ ADDED MOVING LOGO MARQUEE CSS ═══ */
+        .marquee-container {
+            overflow: hidden;
+            white-space: nowrap;
+            background: rgba(5,5,16,0.7);
+            border-top: 1px solid rgba(240,185,11,0.03);
+            border-bottom: 1px solid rgba(240,185,11,0.03);
+            padding: 20px 0;
+            position: relative;
+            z-index: 1;
+        }
+        .marquee-track {
+            display: inline-block;
+            animation: marquee 25s linear infinite;
+        }
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes marquee {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .marquee-item {
+            display: inline-block;
+            margin: 0 50px;
+            vertical-align: middle;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .marquee-item img {
+            height: 30px;
+            width: auto;
+            opacity: 0.5;
+            filter: grayscale(100%) brightness(2);
+            transition: all 0.3s ease;
+        }
+        .marquee-item:hover img {
+            opacity: 1;
+            filter: grayscale(0%) brightness(1);
+            transform: scale(1.1);
+        }
+        /* ═══ END MARQUEE CSS ═══ */
     </style>
 </head>
 <body class="grid-bg">
@@ -270,7 +313,7 @@
             </div>
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mb-16">
                 <button onclick="handleBuyClick()" class="btn-gold px-8 py-3.5 rounded-xl text-base font-semibold text-dark-900 flex items-center gap-2 shadow-lg shadow-gold-400/20"><i class="fas fa-bolt text-sm"></i> Buy DRC</button>
-               <a href="https://web3wallet.dailyremit.com/" target="_blank" id="navConnectBtn" style="position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:12px;background:linear-gradient(135deg,#f0b90b 0%,#d4a00a 100%);color:#080814;font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;text-decoration:none;overflow:hidden;box-shadow:0 0 20px rgba(240,185,11,0.25),0 4px 12px rgba(240,185,11,0.15);transition:all 0.3s ease;cursor:pointer;" onmouseover="this.style.boxShadow='0 0 30px rgba(240,185,11,0.4),0 6px 20px rgba(240,185,11,0.25)';this.style.transform='translateY(-1px) scale(1.03)';this.querySelector('.nav-btn-shine').style.left='100%';" onmouseout="this.style.boxShadow='0 0 20px rgba(240,185,11,0.25),0 4px 12px rgba(240,185,11,0.15)';this.style.transform='translateY(0) scale(1)';this.querySelector('.nav-btn-shine').style.left='-100%';"><span class="nav-btn-shine" style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transition:left 0.5s ease;pointer-events:none;"></span><span style="position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:8px;background:rgba(8,8,20,0.2);box-shadow:0 0 8px rgba(8,8,20,0.15);"><i class="fas fa-wallet" style="font-size:11px;"></i></span><span style="position:relative;z-index:2;" class="hidden sm:inline">Connect Web3 DRC Wallet</span></a>
+               <a href="https://web3wallet.dailyremit.com/" target="_blank" style="position:relative;display:inline-flex;align-items:center;gap:8px;padding:8px 18px;border-radius:12px;background:linear-gradient(135deg,#f0b90b 0%,#d4a00a 100%);color:#080814;font-size:13px;font-weight:700;font-family:'Space Grotesk',sans-serif;text-decoration:none;overflow:hidden;box-shadow:0 0 20px rgba(240,185,11,0.25),0 4px 12px rgba(240,185,11,0.15);transition:all 0.3s ease;cursor:pointer;" onmouseover="this.style.boxShadow='0 0 30px rgba(240,185,11,0.4),0 6px 20px rgba(240,185,11,0.25)';this.style.transform='translateY(-1px) scale(1.03)';this.querySelector('.nav-btn-shine').style.left='100%';" onmouseout="this.style.boxShadow='0 0 20px rgba(240,185,11,0.25),0 4px 12px rgba(240,185,11,0.15)';this.style.transform='translateY(0) scale(1)';this.querySelector('.nav-btn-shine').style.left='-100%';"><span class="nav-btn-shine" style="position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.25),transparent);transition:left 0.5s ease;pointer-events:none;"></span><span style="position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:24px;height:24px;border-radius:8px;background:rgba(8,8,20,0.2);box-shadow:0 0 8px rgba(8,8,20,0.15);"><i class="fas fa-wallet" style="font-size:11px;"></i></span><span style="position:relative;z-index:2;" class="hidden sm:inline">Connect Web3 DRC Wallet</span></a>
             </div>
             <div class="flex items-center justify-center gap-6 sm:gap-10 flex-wrap">
                 <div class="text-center"><div class="font-display text-2xl md:text-3xl font-bold text-white">1B</div><div class="text-xs text-gray-500 mt-1">Total Supply</div></div>
@@ -285,7 +328,7 @@
         <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-40"><span class="text-[10px] text-gray-500 tracking-widest uppercase">Scroll</span><div class="w-5 h-8 rounded-full border border-gray-600 flex justify-center pt-1.5"><div class="w-1 h-2 rounded-full bg-gray-500 animate-bounce"></div></div></div>
     </section>
 
-    <!-- ═══ LIVE MARKET DATA (API INTEGRATION) ═══ -->
+    <!-- LIVE MARKET DATA -->
     <section class="relative py-6" style="z-index:1;border-top:1px solid rgba(240,185,11,0.06);border-bottom:1px solid rgba(240,185,11,0.06);background:rgba(5,5,16,0.7);">
         <div class="max-w-6xl mx-auto px-4 sm:px-6">
             <div class="flex items-center justify-center gap-2 mb-4">
@@ -317,6 +360,32 @@
             <div class="text-center mt-3"><span class="text-[10px] text-gray-600">Updated: <span id="live-time">Loading...</span></span></div>
         </div>
     </section>
+
+    <!-- ═══ ADDED MOVING LOGO MARQUEE ═══ -->
+    <div class="marquee-container">
+        <div class="marquee-track">
+            <a href="https://dexscreener.com/bsc/0x316a5e1f7d3a52083185261965685c15ae284627" target="_blank" class="marquee-item">
+                <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/dex%20scrrener%20400x400.png" alt="DexScreener">
+            </a>
+            <a href="https://blockspot.io/coin/daily-remit-coin/" target="_blank" class="marquee-item">
+                <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/blockspot.io%20300x80.png" alt="Blockspot">
+            </a>
+            <a href="https://coinvote.cc/en/coin/Daily-Remit-Coin" target="_blank" class="marquee-item">
+                <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/coinvote_logo.png" alt="Coinvote">
+            </a>
+            <!-- Duplicate set for seamless infinite loop -->
+            <a href="https://dexscreener.com/bsc/0x316a5e1f7d3a52083185261965685c15ae284627" target="_blank" class="marquee-item">
+                <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/dex%20scrrener%20400x400.png" alt="DexScreener">
+            </a>
+            <a href="https://blockspot.io/coin/daily-remit-coin/" target="_blank" class="marquee-item">
+                <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/blockspot.io%20300x80.png" alt="Blockspot">
+            </a>
+            <a href="https://coinvote.cc/en/coin/Daily-Remit-Coin" target="_blank" class="marquee-item">
+                <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/coinvote_logo.png" alt="Coinvote">
+            </a>
+        </div>
+    </div>
+    <!-- ═══ END MOVING LOGO MARQUEE ═══ -->
 
     <!-- ABOUT -->
     <section id="about" class="py-24 md:py-32 relative">
@@ -373,14 +442,68 @@
                     <button onclick="handleBuyClick()" class="btn-gold px-8 py-3.5 rounded-xl text-sm font-semibold text-dark-900 flex items-center gap-2 flex-shrink-0"><i class="fas fa-exchange-alt"></i> Buy Now</button>
                 </div>
             </div>
+
+            <!-- DEX/Tracker grid — with Blockspot, Coinvote logos added -->
             <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-10 fade-up">
-                <a href="https://pancakeswap.finance/swap?outputCurrency=0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(189,147,249,0.1),rgba(189,147,249,0.02));border:1px solid rgba(189,147,249,0.1);"><i class="fas fa-pancake text-xl" style="color:#d399ff;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">PancakeSwap</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> Trade</span></a>
-                <a href="https://dexscreener.com/bsc/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(16,185,129,0.02));border:1px solid rgba(16,185,129,0.1);"><i class="fas fa-chart-bar text-xl text-accent-green"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">DexScreener</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> Chart</span></a>
-                <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(59,130,246,0.02));border:1px solid rgba(59,130,246,0.1);"><i class="fas fa-tools text-xl text-accent-blue"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">DEXTools</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
-                <a href="https://www.coingecko.com/en/coins/daily-remit-coin" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(124,225,107,0.1),rgba(124,225,107,0.02));border:1px solid rgba(124,225,107,0.1);"><i class="fas fa-gecko text-xl" style="color:#7ce16b;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">CoinGecko</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
-                <a href="https://coinmarketcap.com/currencies/daily-remit-coin/" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(67,171,247,0.1),rgba(67,171,247,0.02));border:1px solid rgba(67,171,247,0.1);"><i class="fas fa-chart-line text-xl" style="color:#43abf7;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">CoinMarketCap</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
-                <a href="https://dex.coinmarketcap.com/token/bsc/0x316a5e1f7d3a52083185261965685c15ae284627/" target="_blank" class="dex-card text-center group"><div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(67,171,247,0.1),rgba(67,171,247,0.02));border:1px solid rgba(67,171,247,0.1);"><i class="fas fa-chart-area text-xl" style="color:#43abf7;"></i></div><h3 class="font-display text-sm font-semibold text-white mb-0.5">DEX CoinMarketCap</h3><span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span></a>
+
+                <a href="https://pancakeswap.finance/swap?outputCurrency=0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(189,147,249,0.1),rgba(189,147,249,0.02));border:1px solid rgba(189,147,249,0.1);"><i class="fas fa-pancake text-xl" style="color:#d399ff;"></i></div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">PancakeSwap</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> Trade</span>
+                </a>
+
+                <a href="https://dexscreener.com/bsc/0x316a5e1f7d3a52083185261965685c15ae284627" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center p-2" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+                        <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/dex%20scrrener%20400x400.png" alt="DexScreener" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">DexScreener</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> Chart</span>
+                </a>
+
+                <a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(59,130,246,0.1),rgba(59,130,246,0.02));border:1px solid rgba(59,130,246,0.1);"><i class="fas fa-tools text-xl text-accent-blue"></i></div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">DEXTools</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span>
+                </a>
+
+                <!-- ADDED Blockspot card with logo -->
+                <a href="https://blockspot.io/coin/daily-remit-coin/" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center p-2" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+                        <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/blockspot.io%20300x80.png" alt="Blockspot" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">Blockspot</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span>
+                </a>
+
+                <!-- ADDED Coinvote card with logo -->
+                <a href="https://coinvote.cc/en/coin/Daily-Remit-Coin" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center p-2" style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);">
+                        <img src="https://raw.githubusercontent.com/CryptonDark0/Daily-Remit/main/assets/logo/coinvote_logo.png" alt="Coinvote" class="w-full h-full object-contain">
+                    </div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">Coinvote</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> Vote</span>
+                </a>
+
+                <a href="https://www.coingecko.com/en/coins/daily-remit-coin" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(124,225,107,0.1),rgba(124,225,107,0.02));border:1px solid rgba(124,225,107,0.1);"><i class="fas fa-gecko text-xl" style="color:#7ce16b;"></i></div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">CoinGecko</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span>
+                </a>
+
+                <a href="https://coinmarketcap.com/currencies/daily-remit-coin/" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(67,171,247,0.1),rgba(67,171,247,0.02));border:1px solid rgba(67,171,247,0.1);"><i class="fas fa-chart-line text-xl" style="color:#43abf7;"></i></div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">CoinMarketCap</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span>
+                </a>
+
+                <a href="https://dex.coinmarketcap.com/token/bsc/0x316a5e1f7d3a52083185261965685c15ae284627/" target="_blank" class="dex-card text-center group">
+                    <div class="w-14 h-14 rounded-2xl mx-auto mb-3 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(67,171,247,0.1),rgba(67,171,247,0.02));border:1px solid rgba(67,171,247,0.1);"><i class="fas fa-chart-area text-xl" style="color:#43abf7;"></i></div>
+                    <h3 class="font-display text-sm font-semibold text-white mb-0.5">DEX CoinMarketCap</h3>
+                    <span class="inline-flex items-center gap-1 text-[10px] font-medium text-gold-400"><i class="fas fa-external-link-alt text-[8px]"></i> View</span>
+                </a>
+
             </div>
+
             <div class="text-center fade-up"><button onclick="openModal('buyModal')" class="btn-outline px-6 py-3 rounded-xl text-sm font-medium text-gold-300 inline-flex items-center gap-2"><i class="fas fa-book-open text-sm"></i> Step-by-Step Guide</button></div>
         </div>
     </section>
@@ -487,8 +610,12 @@
                     <h4 class="font-display font-semibold text-white text-sm mb-4">Exchanges & Trackers</h4>
                     <ul class="space-y-2.5">
                         <li><a href="https://pancakeswap.finance/swap?outputCurrency=0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">PancakeSwap <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
-                        <li><a href="https://dexscreener.com/bsc/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">DexScreener <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
+                        <li><a href="https://dexscreener.com/bsc/0x316a5e1f7d3a52083185261965685c15ae284627" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">DexScreener <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
                         <li><a href="https://www.dextools.io/app/en/bnb/pair-explorer/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">DEXTools <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
+                        <!-- ADDED Blockspot + Coinvote footer links -->
+                        <li><a href="https://blockspot.io/coin/daily-remit-coin/" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">Blockspot <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
+                        <li><a href="https://coinvote.cc/en/coin/Daily-Remit-Coin" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">Coinvote <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
+                        <!-- END ADDED -->
                         <li><a href="https://www.coingecko.com/en/coins/daily-remit-coin" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">CoinGecko <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
                         <li><a href="https://coinmarketcap.com/currencies/daily-remit-coin/" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">CoinMarketCap <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
                         <li><a href="https://bscscan.com/token/0x316a5e1F7d3a52083185261965685c15Ae284627" target="_blank" class="text-sm text-gray-500 hover:text-gold-400 transition-colors">BscScan <i class="fas fa-external-link-alt text-[10px] ml-1"></i></a></li>
