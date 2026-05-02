@@ -5,7 +5,7 @@
 <h1 align="center">Daily Remit Coin (DRC)</h1>
 
 <p align="center">
-  🌐 Future-Proof Multi-Use Cryptocurrency for Global Remittances  
+  🌐 Future-Proof Multi-Use Cryptocurrency 🟠
 </p>
 
 <p align="center">
